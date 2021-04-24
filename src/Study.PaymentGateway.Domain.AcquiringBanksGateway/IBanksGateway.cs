@@ -4,13 +4,15 @@
 
     public interface IBankGateways
     {
+        public string Token { get; set; }
+
         /// <summary>
         /// Logs to Banks API
         /// </summary>
         /// <param name="URL">Bank API address</param>
         /// <param name="user">PaymentGateway User</param>
         /// <param name="pass">PaymentGateway Password</param>
-        void SetupConnection(string URL, string user, string pass);
+        void Login(string URL, string user, string pass);
 
         /// <summary>
         /// Executes the Payment.
@@ -21,5 +23,10 @@
         /// <param name="merchant">Merchand Account</param>
         /// <returns>It will respond the Status of this Execution</returns>
         int ExecutesPayment(string URL, object shopperCard, object merchant);
+
+        /// <summary>
+        /// Sets the Bank configuration
+        /// </summary>
+        void GetBankConfiguration();
     }
 }

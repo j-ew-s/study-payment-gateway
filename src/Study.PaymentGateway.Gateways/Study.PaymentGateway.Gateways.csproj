@@ -10,5 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Study.PaymentGateway.Domain.AcquiringBanksGateway\Study.PaymentGateway.Domain.AcquiringBanksGateway.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.Shared.Enums\Study.PaymentGateway.Shared.Enums.csproj" />
   </ItemGroup>
 </Project>

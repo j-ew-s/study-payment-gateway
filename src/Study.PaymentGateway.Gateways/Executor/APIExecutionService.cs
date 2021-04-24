@@ -1,27 +1,27 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Study.PaymentGateway.Gateways.Configuration.Interfaces;
 using Study.PaymentGateway.Gateways.Executor.Interface;
 
 namespace Study.PaymentGateway.Gateways.Executor
 {
     public class APIExecutionService : IAPIExecutionService
     {
-        // Adicionar aqui uma interface para carregar informações dos Bancos da configuração
-        public APIExecutionService()
+        public APIExecutionService(IGatewayConfiguration gatewayConfiguration)
         {
         }
 
-        public async Task<T> Get<T>(string a) where T : class
+        public async Task<T> Get<T>(string uri) where T : class
         {
-            var response = await HttpClientExecutor.Get("");
+            var response = await HttpClientExecutor.Get(uri);
 
             return await SetResponse<T>(response);
         }
 
-        public async Task<T> Post<T>(string a) where T : class
+        public async Task<T> Post<T>(string uri, T content) where T : class
         {
-            var response = await HttpClientExecutor.Get("");
+            var response = await HttpClientExecutor.Post<T>(uri, content);
 
             return await SetResponse<T>(response);
         }
