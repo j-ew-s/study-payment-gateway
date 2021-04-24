@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>229f2723-dd69-4142-a274-fd98ae3ff3d6</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+    <PackageReference Include="MongoDB.Driver" Version="2.11.6" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Study.PaymentGateway.App.Mapper\Study.PaymentGateway.App.Mapper.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.App.Services\Study.PaymentGateway.App.Services.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.Domain.Services\Study.PaymentGateway.Domain.Services.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.Gateways\Study.PaymentGateway.Gateways.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.Repository.MongoDB\Study.PaymentGateway.Repository.MongoDB.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.Shared.DTO\Study.PaymentGateway.Shared.DTO.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.Shared.Enums\Study.PaymentGateway.Shared.Enums.csproj" />
+  </ItemGroup>
+</Project>

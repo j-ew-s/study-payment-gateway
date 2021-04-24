@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Study.PaymentGateway.Domain.Entity\Study.PaymentGateway.Domain.Entities.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.Domain.Services\Study.PaymentGateway.Domain.Services.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.Gateways\Study.PaymentGateway.Gateways.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.Repository.MongoDB\Study.PaymentGateway.Repository.MongoDB.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.Shared.DTO\Study.PaymentGateway.Shared.DTO.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.Shared.Enums\Study.PaymentGateway.Shared.Enums.csproj" />
+  </ItemGroup>
+
+</Project>

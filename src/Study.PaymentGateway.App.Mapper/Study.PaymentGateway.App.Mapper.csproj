@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Study.PaymentGateway.Domain.Entity\Study.PaymentGateway.Domain.Entities.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.Shared.DTO\Study.PaymentGateway.Shared.DTO.csproj" />
+  </ItemGroup>
+
+</Project>

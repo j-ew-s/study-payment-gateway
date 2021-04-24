@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Repository\NewFolder\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="MongoDB.Bson" Version="2.11.6" />
+    <PackageReference Include="MongoDB.Driver" Version="2.11.6" />
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.11.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Study.PaymentGateway.Domain.Entity\Study.PaymentGateway.Domain.Entities.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.Domain.Repository\Study.PaymentGateway.Domain.Repository.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.Shared.DTO\Study.PaymentGateway.Shared.DTO.csproj" />
+  </ItemGroup>
+</Project>
