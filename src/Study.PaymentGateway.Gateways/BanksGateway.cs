@@ -1,6 +1,6 @@
 ﻿using Study.PaymentGatewat.BanksGateway;
 
-namespace Study.PaymentGateway.Gateways
+namespace Study.PaymentGateway.Gateways.Executor
 {
     public class BanksGateway : IBanksGateway
     {
