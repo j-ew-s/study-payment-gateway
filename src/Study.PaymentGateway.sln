@@ -51,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Study.PaymentGateway.API.Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B7E1969D-3842-47AE-B6CA-0A7A86864DD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Study.PaymentGatewat.BanksGateway", "Study.PaymentGatewat.BanksGateway\Study.PaymentGatewat.BanksGateway.csproj", "{3CCCAEEF-11AC-4298-93D7-E1DE105BF742}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Study.PaymentGateway.Domain.AcquiringBanksGateway", "Study.PaymentGateway.Domain.AcquiringBanksGateway\Study.PaymentGateway.Domain.AcquiringBanksGateway.csproj", "{82418818-8AA5-4530-A65B-AD316BB3E6F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,10 +115,10 @@ Global
 		{026E1C33-B2E8-4A81-AE91-1D2E4C6A9BF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{026E1C33-B2E8-4A81-AE91-1D2E4C6A9BF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{026E1C33-B2E8-4A81-AE91-1D2E4C6A9BF8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3CCCAEEF-11AC-4298-93D7-E1DE105BF742}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3CCCAEEF-11AC-4298-93D7-E1DE105BF742}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3CCCAEEF-11AC-4298-93D7-E1DE105BF742}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3CCCAEEF-11AC-4298-93D7-E1DE105BF742}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82418818-8AA5-4530-A65B-AD316BB3E6F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82418818-8AA5-4530-A65B-AD316BB3E6F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82418818-8AA5-4530-A65B-AD316BB3E6F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82418818-8AA5-4530-A65B-AD316BB3E6F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -142,7 +142,7 @@ Global
 		{D3116366-C96C-46F5-B3E2-007F78A22B6E} = {FE5EC22E-90AA-4E4C-BF3B-149795D26C3E}
 		{026E1C33-B2E8-4A81-AE91-1D2E4C6A9BF8} = {42CAFD23-D033-4E07-AF92-21258A0E5464}
 		{B7E1969D-3842-47AE-B6CA-0A7A86864DD2} = {F8880C2C-C49A-4FE2-B6EE-44441D0FC75C}
-		{3CCCAEEF-11AC-4298-93D7-E1DE105BF742} = {086544E1-E167-4E8A-90DB-54E672816415}
+		{82418818-8AA5-4530-A65B-AD316BB3E6F4} = {086544E1-E167-4E8A-90DB-54E672816415}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2FC02C87-8085-4F77-A28B-66D2040ADD46}

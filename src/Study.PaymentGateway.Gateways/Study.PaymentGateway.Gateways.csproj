@@ -9,6 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Study.PaymentGatewat.BanksGateway\Study.PaymentGatewat.BanksGateway.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.Domain.AcquiringBanksGateway\Study.PaymentGateway.Domain.AcquiringBanksGateway.csproj" />
   </ItemGroup>
 </Project>

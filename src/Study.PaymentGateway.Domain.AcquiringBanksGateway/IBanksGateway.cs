@@ -1,6 +1,8 @@
-﻿namespace Study.PaymentGatewat.BanksGateway
+﻿namespace Study.PaymentGateway.Domain.AcquiringBanksGateway
 {
-    public interface IBanksGateway
+    using System;
+
+    public interface IBankGateways
     {
         /// <summary>
         /// Logs to Banks API

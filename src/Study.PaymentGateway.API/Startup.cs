@@ -14,9 +14,12 @@ namespace Study.PaymentGateway.API
     using Study.PaymentGateway.App.Mapper;
     using Study.PaymentGateway.App.Services;
     using Study.PaymentGateway.App.Services.Interfaces;
+    using Study.PaymentGateway.Domain.AcquiringBanksGateway;
     using Study.PaymentGateway.Domain.Repository;
     using Study.PaymentGateway.Domain.Services;
     using Study.PaymentGateway.Domain.Services.Interfaces;
+    using Study.PaymentGateway.Gateways.Executor;
+    using Study.PaymentGateway.Gateways.Executor.Interface;
     using Study.PaymentGateway.Repository.MongoDB.Configuration;
     using Study.PaymentGateway.Repository.MongoDB.Configuration.Interfaces;
     using Study.PaymentGateway.Repository.MongoDB.Configuration.Settings;
@@ -47,9 +50,11 @@ namespace Study.PaymentGateway.API
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IBankGateways, BankGateways>();
 
             var mapper = new AutoMapperConfiguration();
             services.AddSingleton(mapper.Mapper);
+            services.AddSingleton<IAPIExecutionService, APIExecutionService>();
 
             services.AddSingleton<IMongoDBConfiguration, MongoDBConfiguration>();
             services.Configure<MongoDBSettings>(Configuration.GetSection(nameof(MongoDBSettings)));

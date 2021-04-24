@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Study.PaymentGateway.Gateways
 {
-    public static class APIExecutorService
+    public static class HttpClientExecutor
     {
         private static readonly HttpClient client = new HttpClient();
 
