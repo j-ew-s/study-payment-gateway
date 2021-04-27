@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Study.PaymentGateway.Domain.Entities.Bases;
+using Study.PaymentGateway.Shared.Enums;
 
 namespace Study.PaymentGateway.Domain.Entities.Cards
 {
@@ -10,6 +12,13 @@ namespace Study.PaymentGateway.Domain.Entities.Cards
         public Int64 Number { get; set; }
         public string CVV { get; set; }
         public string Expiration { get; set; }
+
+        public BankCodeEnum Bank()
+        {
+            return (BankCodeEnum)this.Number.ToString()
+                .ToCharArray()
+                .FirstOrDefault();
+        }
 
         public override IReadOnlyList<string> GetErrorMessages()
         {

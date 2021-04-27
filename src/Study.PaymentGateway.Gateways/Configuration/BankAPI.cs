@@ -6,6 +6,11 @@ namespace Study.PaymentGateway.Gateways.Configuration
 {
     public class BankAPI : IBankAPI
     {
+        public BankAPI()
+        {
+            this.ActionUris = new List<ActionUris>();
+        }
+
         public string Institution { get; set; }
         public string Domain { get; set; }
         public List<ActionUris> ActionUris { get; set; }

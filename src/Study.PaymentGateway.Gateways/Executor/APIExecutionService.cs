@@ -19,9 +19,9 @@ namespace Study.PaymentGateway.Gateways.Executor
             return await SetResponse<T>(response);
         }
 
-        public async Task<T> Post<T>(string uri, T content) where T : class
+        public async Task<T> Post<T>(string uri, object content) where T : class
         {
-            var response = await HttpClientExecutor.Post<T>(uri, content);
+            var response = await HttpClientExecutor.Post(uri, content);
 
             return await SetResponse<T>(response);
         }

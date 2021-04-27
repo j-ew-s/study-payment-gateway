@@ -6,6 +6,6 @@ namespace Study.PaymentGateway.Gateways.Executor.Interface
     {
         Task<T> Get<T>(string uri) where T : class;
 
-        Task<T> Post<T>(string uri, T content) where T : class;
+        Task<T> Post<T>(string uri, object content) where T : class;
     }
 }

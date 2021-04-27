@@ -3,6 +3,8 @@
     public enum BankCodeEnum
     {
         Visa = 4,
-        MasterCard = 5
+        MasterCard = 5,
+
+        NotRecognised = 999
     }
 }

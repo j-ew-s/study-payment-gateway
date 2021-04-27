@@ -1,8 +1,12 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Study.PaymentGateway.Domain.AcquiringBanksGateway;
+using Study.PaymentGateway.Domain.Entities.Banks;
+using Study.PaymentGateway.Domain.Entities.Payments;
 using Study.PaymentGateway.Gateways.Configuration;
 using Study.PaymentGateway.Gateways.Configuration.Interfaces;
 using Study.PaymentGateway.Gateways.Executor.Interface;
+using Study.PaymentGateway.Gateways.Models;
 using Study.PaymentGateway.Shared.Enums;
 
 namespace Study.PaymentGateway.Gateways
@@ -21,14 +25,34 @@ namespace Study.PaymentGateway.Gateways
             BankAPI = this.gatewayConfiguration.BankAPIs.Where(w => w.Code == (int)BankCodeEnum.Visa).FirstOrDefault();
         }
 
-        public override int ExecutesPayment(string URL, object shopperCard, object merchant)
+        public override async Task<BankResponse> ExecutesPayment(Payment payment)
         {
-            throw new System.NotImplementedException();
+            var executesPaymentConfig = this.BankAPI.ActionUris.Where(w => w.Action == GatewayActionsEnum.ProcessPayment).FirstOrDefault();
+
+            var executesPayment = new VisaExecutesPayment()
+            {
+                Token = this.Token,
+                Payment = payment
+            };
+
+            return await this.apiExecutionService.Post<BankResponse>(executesPaymentConfig.URI, executesPayment);
         }
 
-        public override void Login(string URL, string user, string pass)
+        public override async Task<BankLoginResponse> Login(string user, string pass)
         {
-            throw new System.NotImplementedException();
+            var loginConfig = this.BankAPI.ActionUris.Where(w => w.Action == GatewayActionsEnum.Login).FirstOrDefault();
+
+            var userLogin = new VisaLogin()
+            {
+                User = user,
+                Password = pass
+            };
+
+            var response = await this.apiExecutionService.Post<BankLoginResponse>(loginConfig.URI, userLogin);
+
+            this.Token = response.Body;
+
+            return response;
         }
     }
 }

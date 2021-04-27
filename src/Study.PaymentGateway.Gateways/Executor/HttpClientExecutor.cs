@@ -29,7 +29,7 @@ namespace Study.PaymentGateway.Gateways
         /// <typeparam name="T">Model Object Type</typeparam>
         /// <param name="objectToSerialize">Object to be serialized</param>
         /// <returns>StringContent object serialized using UTF-8 encoding with json media type.</returns>
-        private static StringContent PrepareStringContent<T>(T objectToSerialize) where T : class
+        private static StringContent PrepareStringContent(object objectToSerialize)
         {
             return new StringContent(
                 JsonConvert.SerializeObject(objectToSerialize),

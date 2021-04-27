@@ -1,5 +1,7 @@
-﻿using Study.PaymentGateway.Domain.AcquiringBanksGateway;
-using Study.PaymentGateway.Gateways.Configuration;
+﻿using System.Threading.Tasks;
+using Study.PaymentGateway.Domain.AcquiringBanksGateway;
+using Study.PaymentGateway.Domain.Entities.Banks;
+using Study.PaymentGateway.Domain.Entities.Payments;
 using Study.PaymentGateway.Gateways.Configuration.Interfaces;
 using Study.PaymentGateway.Gateways.Executor.Interface;
 
@@ -18,9 +20,9 @@ namespace Study.PaymentGateway.Gateways
 
         public string Token { get; set; }
 
-        public abstract int ExecutesPayment(string URL, object shopperCard, object merchant);
+        public abstract Task<BankResponse> ExecutesPayment(Payment payment);
 
-        public abstract void Login(string URL, string user, string pass);
+        public abstract Task<BankLoginResponse> Login(string user, string pass);
 
         public abstract void GetBankConfiguration();
     }
