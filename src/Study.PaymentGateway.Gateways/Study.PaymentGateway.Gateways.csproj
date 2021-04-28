@@ -1,11 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Study.PaymentGatewat.BanksGateway\Study.PaymentGatewat.BanksGateway.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Study.PaymentGateway.Domain.AcquiringBanksGateway\Study.PaymentGateway.Domain.AcquiringBanksGateway.csproj" />
+    <ProjectReference Include="..\Study.PaymentGateway.Shared.Enums\Study.PaymentGateway.Shared.Enums.csproj" />
+  </ItemGroup>
 </Project>

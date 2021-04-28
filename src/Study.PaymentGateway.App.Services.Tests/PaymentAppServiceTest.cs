@@ -1,17 +1,9 @@
-using System;
 using System.Threading.Tasks;
 using AutoFixture;
-using AutoMapper;
 using Moq;
 using Study.PaymentGateway.App.Services.Tests.Util.DataGenerate;
-using Study.PaymentGateway.Domain.Entities.Banks;
-using Study.PaymentGateway.Domain.Entities.Cards;
 using Study.PaymentGateway.Domain.Entities.Payments;
-using Study.PaymentGateway.Domain.Repository;
-using Study.PaymentGateway.Domain.Services;
 using Study.PaymentGateway.Domain.Services.Interfaces;
-using Study.PaymentGateway.Repository.MongoDB.Repository;
-using Study.PaymentGateway.Shared.DTO.Cards;
 using Study.PaymentGateway.Shared.DTO.HTTPResponses;
 using Study.PaymentGateway.Shared.DTO.Payments;
 using Xunit;

@@ -22,6 +22,7 @@ namespace Study.PaymentGateway.API.Controllers.v1.Merchant
         [HttpPost]
         public async Task<IActionResult> ProcessPayment([FromBody] PaymentDTO payment)
         {
+            return null;
         }
 
         [HttpGet("{id}/payments/{paymentId}")]

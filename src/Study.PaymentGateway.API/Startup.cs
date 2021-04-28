@@ -1,7 +1,6 @@
 namespace Study.PaymentGateway.API
 {
     using System.Diagnostics.CodeAnalysis;
-    using AutoMapper;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -11,17 +10,21 @@ namespace Study.PaymentGateway.API
     using Microsoft.OpenApi.Models;
     using Study.PaymentGateway.API.Configurations;
     using Study.PaymentGateway.API.Filter;
-    using Study.PaymentGateway.App.Mapper;
     using Study.PaymentGateway.App.Services;
     using Study.PaymentGateway.App.Services.Interfaces;
+    using Study.PaymentGateway.Domain.AcquiringBanksGateway;
     using Study.PaymentGateway.Domain.Repository;
     using Study.PaymentGateway.Domain.Services;
     using Study.PaymentGateway.Domain.Services.Interfaces;
+    using Study.PaymentGateway.Gateways;
+    using Study.PaymentGateway.Gateways.Configuration;
+    using Study.PaymentGateway.Gateways.Configuration.Interfaces;
+    using Study.PaymentGateway.Gateways.Executor;
+    using Study.PaymentGateway.Gateways.Executor.Interface;
     using Study.PaymentGateway.Repository.MongoDB.Configuration;
     using Study.PaymentGateway.Repository.MongoDB.Configuration.Interfaces;
     using Study.PaymentGateway.Repository.MongoDB.Configuration.Settings;
     using Study.PaymentGateway.Repository.MongoDB.Configuration.Settings.Interfaces;
-    using Study.PaymentGateway.Repository.MongoDB.Mapper;
     using Study.PaymentGateway.Repository.MongoDB.Repository;
 
     [ExcludeFromCodeCoverageAttribute]
@@ -43,17 +46,28 @@ namespace Study.PaymentGateway.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Study.PaymentGateway.API", Version = "v1" });
             });
 
+            // Scoped
             services.AddScoped<IPaymentAppService, PaymentAppService>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IBankGateways, BankGateways>();
 
+            // Singletons
             var mapper = new AutoMapperConfiguration();
             services.AddSingleton(mapper.Mapper);
-
+            services.AddSingleton<IAPIExecutionService, APIExecutionService>();
+            services.AddSingleton<IGatewayConfiguration, GatewayConfiguration>();
+            services.AddSingleton<IBankAPI, BankAPI>();
+            services.AddSingleton<IActionUris, ActionUris>();
             services.AddSingleton<IMongoDBConfiguration, MongoDBConfiguration>();
+
+            // configurations that depends on appsettings.
             services.Configure<MongoDBSettings>(Configuration.GetSection(nameof(MongoDBSettings)));
             services.AddSingleton<IMongoDBSettings>(sp => sp.GetRequiredService<IOptions<MongoDBSettings>>().Value);
+
+            services.Configure<GatewayConfiguration>(Configuration.GetSection(nameof(GatewayConfiguration)));
+            services.AddSingleton<IGatewayConfiguration>(sp => sp.GetRequiredService<IOptions<GatewayConfiguration>>().Value);
 
             services.AddMvc(
                 opt =>
