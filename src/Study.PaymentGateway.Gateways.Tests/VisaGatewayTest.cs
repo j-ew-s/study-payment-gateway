@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using AutoFixture;
 using Moq;
 using Study.PaymentGateway.Domain.Entities.Banks;
 using Study.PaymentGateway.Gateways.Configuration.Interfaces;
@@ -13,13 +12,10 @@ namespace Study.PaymentGateway.Gateways.Tests
 {
     public class VisaGatewayTest
     {
-        private Fixture fixture = new Fixture();
         private IGatewayConfiguration gatewayConfiguration;
         private Mock<IAPIExecutionService> mockApiExecutionService;
         private VisaGateway visaGateway;
 
-        private const string user = "user";
-        private const string password = "pass";
         private const string token = "token";
 
         public VisaGatewayTest()
@@ -31,7 +27,7 @@ namespace Study.PaymentGateway.Gateways.Tests
         public async Task Login_When_ValidInput_Returns_ValidBankLoginResponse()
         {
             // Arrange
-            var bankLoginResponse = this.fixture.Create<BankLoginResponse>();
+            var bankLoginResponse = new BankLoginResponse();
             bankLoginResponse.Status = 200;
             bankLoginResponse.Body = token;
 
@@ -60,7 +56,7 @@ namespace Study.PaymentGateway.Gateways.Tests
         public async Task Login_When_InvalidInput_Returns_ValidBankLoginResponse()
         {
             // Arrange
-            var bankLoginResponse = this.fixture.Create<BankLoginResponse>();
+            var bankLoginResponse = new BankLoginResponse();
             bankLoginResponse.Status = 400;
             bankLoginResponse.Body = null;
             bankLoginResponse.Message = "Invalid GatewayConfiguration";
