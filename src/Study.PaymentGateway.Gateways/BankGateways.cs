@@ -7,7 +7,7 @@ using Study.PaymentGateway.Gateways.Executor.Interface;
 
 namespace Study.PaymentGateway.Gateways
 {
-    public abstract class BankGateways : IBankGateways
+    public abstract class BankGateways
     {
         public readonly IGatewayConfiguration gatewayConfiguration;
         public readonly IAPIExecutionService apiExecutionService;

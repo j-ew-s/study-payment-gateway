@@ -72,7 +72,7 @@ namespace Study.PaymentGateway.Domain.Entities.Cards
 
             if (year == currentYear)
             {
-                return month <= currentMonth;
+                return month >= currentMonth;
             }
 
             return month < 13;

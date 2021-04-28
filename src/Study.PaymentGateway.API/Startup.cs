@@ -51,7 +51,8 @@ namespace Study.PaymentGateway.API
             services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
-            services.AddScoped<IBankGateways, BankGateways>();
+            //services.AddScoped<IBankGateways, BankGateways>();
+            services.AddScoped<IVisaGateway, VisaGateway>();
 
             // Singletons
             var mapper = new AutoMapperConfiguration();
@@ -60,6 +61,7 @@ namespace Study.PaymentGateway.API
             services.AddSingleton<IGatewayConfiguration, GatewayConfiguration>();
             services.AddSingleton<IBankAPI, BankAPI>();
             services.AddSingleton<IActionUris, ActionUris>();
+            services.AddSingleton<IBankCredentials, BankCredentials>();
             services.AddSingleton<IMongoDBConfiguration, MongoDBConfiguration>();
 
             // configurations that depends on appsettings.
