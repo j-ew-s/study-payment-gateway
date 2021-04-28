@@ -45,8 +45,6 @@ namespace Study.PaymentGateway.Gateways.Tests
 
             this.visaGateway = new VisaGateway(this.gatewayConfiguration, this.mockApiExecutionService.Object);
 
-            this.visaGateway.GetBankConfiguration();
-
             var loginActionUris = GatewayConfigurationDataHelper
                 .GetAllActionUris()
                 .Where(w => w.Action == GatewayActionsEnum.Login).FirstOrDefault();

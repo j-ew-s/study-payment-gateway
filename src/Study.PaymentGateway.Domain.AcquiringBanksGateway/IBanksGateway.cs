@@ -26,10 +26,5 @@
         /// <param name="merchant">Merchand Account</param>
         /// <returns>It will respond the Status of this Execution</returns>
         Task<BankResponse> ExecutesPayment(Payment payment);
-
-        /// <summary>
-        /// Sets the Bank configuration
-        /// </summary>
-        void GetBankConfiguration();
     }
 }

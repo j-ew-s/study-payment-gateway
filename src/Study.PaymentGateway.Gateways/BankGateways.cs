@@ -23,7 +23,5 @@ namespace Study.PaymentGateway.Gateways
         public abstract Task<BankResponse> ExecutesPayment(Payment payment);
 
         public abstract Task<BankLoginResponse> Login(string user, string pass);
-
-        public abstract void GetBankConfiguration();
     }
 }

@@ -18,10 +18,6 @@ namespace Study.PaymentGateway.Gateways
         public VisaGateway(IGatewayConfiguration gatewayConfiguration, IAPIExecutionService apiExecutionService)
             : base(gatewayConfiguration, apiExecutionService)
         {
-        }
-
-        public override void GetBankConfiguration()
-        {
             BankAPI = this.gatewayConfiguration.BankAPIs.Where(w => w.Code == (int)BankCodeEnum.Visa).FirstOrDefault();
         }
 
