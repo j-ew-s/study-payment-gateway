@@ -9,19 +9,33 @@ namespace Study.PaymentGateway.Domain.Services
 {
     public class MerchantService : IMerchantService
     {
-        public Task<Merchant> Get(Guid id)
+        public async Task<Merchant> Get(Guid id)
         {
-            throw new NotImplementedException();
+            if (Guid.Empty.Equals(id))
+                return null;
+
+            return new Merchant();
         }
 
-        public Task<Payment> Payment(Guid merchantId, Guid paymentId)
+        public async Task<Payment> Payment(Guid merchantId, Guid paymentId)
         {
-            throw new NotImplementedException();
+            if (Guid.Empty.Equals(merchantId) ||
+                Guid.Empty.Equals(paymentId))
+            {
+                return null;
+            }
+
+            return new Payment();
         }
 
-        public Task<List<Payment>> Payments(Guid merchantId)
+        public async Task<List<Payment>> Payments(Guid merchantId)
         {
-            throw new NotImplementedException();
+            var payments = new List<Payment>();
+
+            if (Guid.Empty.Equals(merchantId))
+                return null;
+
+            return payments;
         }
     }
 }
