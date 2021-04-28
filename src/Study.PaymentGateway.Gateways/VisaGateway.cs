@@ -18,7 +18,7 @@ namespace Study.PaymentGateway.Gateways
         public VisaGateway(IGatewayConfiguration gatewayConfiguration, IAPIExecutionService apiExecutionService)
             : base(gatewayConfiguration, apiExecutionService)
         {
-            BankAPI = this.gatewayConfiguration.BankAPIs.Where(w => w.Code == (int)BankCodeEnum.Visa).FirstOrDefault();
+            BankAPI = this.gatewayConfiguration.BankAPIs.Where(w => w.Code == BankCodeEnum.Visa).FirstOrDefault();
         }
 
         public override async Task<BankResponse> ExecutesPayment(Payment payment)
@@ -34,21 +34,34 @@ namespace Study.PaymentGateway.Gateways
             return await this.apiExecutionService.Post<BankResponse>(executesPaymentConfig.URI, executesPayment);
         }
 
-        public override async Task<BankLoginResponse> Login(string user, string pass)
+        public override async Task<BankLoginResponse> Login()
         {
             var loginConfig = this.BankAPI.ActionUris.Where(w => w.Action == GatewayActionsEnum.Login).FirstOrDefault();
+            var bankResponse = new BankLoginResponse();
 
-            var userLogin = new VisaLogin()
+            if (IsValid(loginConfig))
             {
-                User = user,
-                Password = pass
-            };
+                bankResponse = await this.apiExecutionService.Post<BankLoginResponse>(loginConfig.URI, BankAPI.Credentials);
+                this.Token = bankResponse.Body;
+            }
+            else
+            {
+                bankResponse.Body = null;
+                bankResponse.Status = 400;
+                bankResponse.Message = "Invalid GatewayConfiguration";
+            }
 
-            var response = await this.apiExecutionService.Post<BankLoginResponse>(loginConfig.URI, userLogin);
+            return bankResponse;
+        }
 
-            this.Token = response.Body;
-
-            return response;
+        private bool IsValid(ActionUris loginConfig)
+        {
+            return loginConfig != null ||
+                !string.IsNullOrWhiteSpace(loginConfig.URI) ||
+                !string.IsNullOrWhiteSpace(loginConfig.HttpVerb) ||
+                BankAPI.Credentials != null ||
+                !string.IsNullOrWhiteSpace(BankAPI.Credentials.User) ||
+                !string.IsNullOrWhiteSpace(BankAPI.Credentials.Password);
         }
     }
 }

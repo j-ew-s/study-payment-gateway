@@ -50,7 +50,37 @@ namespace Study.PaymentGateway.Gateways.Tests
                 .Where(w => w.Action == GatewayActionsEnum.Login).FirstOrDefault();
 
             // Act
-            var response = await this.visaGateway.Login(user, password);
+            var response = await this.visaGateway.Login();
+
+            // Assert
+            Assert.NotNull(response);
+            Assert.Equal(token, this.visaGateway.Token);
+            this.mockApiExecutionService.Verify(s => s.Post<BankLoginResponse>(loginActionUris.URI, It.IsAny<object>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task Login_When_InvalidInput_Returns_ValidBankLoginResponse()
+        {
+            // Arrange
+
+            var bankLoginResponse = this.fixture.Create<BankLoginResponse>();
+            bankLoginResponse.Status = 200;
+            bankLoginResponse.Body = token;
+
+            this.gatewayConfiguration = GatewayConfigurationDataHelper.GetGatewayConfiguration();
+
+            this.mockApiExecutionService
+                .Setup(s => s.Post<BankLoginResponse>(It.Is<string>(s => s == GatewayConfigurationDataHelper.loginURI), It.IsAny<object>()))
+                .ReturnsAsync(bankLoginResponse);
+
+            this.visaGateway = new VisaGateway(this.gatewayConfiguration, this.mockApiExecutionService.Object);
+
+            var loginActionUris = GatewayConfigurationDataHelper
+                .GetAllActionUris()
+                .Where(w => w.Action == GatewayActionsEnum.Login).FirstOrDefault();
+
+            // Act
+            var response = await this.visaGateway.Login();
 
             // Assert
             Assert.NotNull(response);

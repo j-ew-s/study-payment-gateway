@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Study.PaymentGateway.Gateways.Configuration;
+using Study.PaymentGateway.Shared.Enums;
 
 namespace Study.PaymentGateway.Gateways.Tests.TestHelpers
 {
@@ -22,7 +23,7 @@ namespace Study.PaymentGateway.Gateways.Tests.TestHelpers
             var bankAPI = new BankAPI();
 
             bankAPI.ActionUris.AddRange(GetAllActionUris());
-            bankAPI.Code = 4;
+            bankAPI.Code = BankCodeEnum.Visa;
             bankAPI.Name = "Visa";
 
             return bankAPI;

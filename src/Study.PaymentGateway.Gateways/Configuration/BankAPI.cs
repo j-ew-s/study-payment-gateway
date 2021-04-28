@@ -15,7 +15,7 @@ namespace Study.PaymentGateway.Gateways.Configuration
         public string Domain { get; set; }
         public List<ActionUris> ActionUris { get; set; }
         public string Name { get; set; }
-        public int Code { get; set; }
-        BankCodeEnum IBankAPI.Code { get; set; }
+        public BankCodeEnum Code { get; set; }
+        public BankCredentials Credentials { get; set; }
     }
 }

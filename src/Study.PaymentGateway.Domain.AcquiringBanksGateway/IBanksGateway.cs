@@ -15,7 +15,7 @@
         /// <param name="URL">Bank API address</param>
         /// <param name="user">PaymentGateway User</param>
         /// <param name="pass">PaymentGateway Password</param>
-        Task<BankLoginResponse> Login(string user, string pass);
+        Task<BankLoginResponse> Login();
 
         /// <summary>
         /// Executes the Payment.
