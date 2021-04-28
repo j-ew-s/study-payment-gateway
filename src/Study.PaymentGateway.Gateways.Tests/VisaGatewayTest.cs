@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using AutoFixture;
 using Moq;
 using Study.PaymentGateway.Domain.Entities.Banks;
-using Study.PaymentGateway.Gateways.Configuration;
 using Study.PaymentGateway.Gateways.Configuration.Interfaces;
 using Study.PaymentGateway.Gateways.Executor.Interface;
 using Study.PaymentGateway.Gateways.Tests.TestHelpers;
@@ -32,7 +31,6 @@ namespace Study.PaymentGateway.Gateways.Tests
         public async Task Login_When_ValidInput_Returns_ValidBankLoginResponse()
         {
             // Arrange
-
             var bankLoginResponse = this.fixture.Create<BankLoginResponse>();
             bankLoginResponse.Status = 200;
             bankLoginResponse.Body = token;
@@ -62,10 +60,10 @@ namespace Study.PaymentGateway.Gateways.Tests
         public async Task Login_When_InvalidInput_Returns_ValidBankLoginResponse()
         {
             // Arrange
-
             var bankLoginResponse = this.fixture.Create<BankLoginResponse>();
-            bankLoginResponse.Status = 200;
-            bankLoginResponse.Body = token;
+            bankLoginResponse.Status = 400;
+            bankLoginResponse.Body = null;
+            bankLoginResponse.Message = "Invalid GatewayConfiguration";
 
             this.gatewayConfiguration = GatewayConfigurationDataHelper.GetGatewayConfiguration();
 
@@ -84,7 +82,9 @@ namespace Study.PaymentGateway.Gateways.Tests
 
             // Assert
             Assert.NotNull(response);
-            Assert.Equal(token, this.visaGateway.Token);
+            Assert.Null(this.visaGateway.Token);
+            Assert.Equal(bankLoginResponse.Message, response.Message);
+            Assert.Equal(bankLoginResponse.Body, response.Body);
             this.mockApiExecutionService.Verify(s => s.Post<BankLoginResponse>(loginActionUris.URI, It.IsAny<object>()), Times.Once);
         }
     }
