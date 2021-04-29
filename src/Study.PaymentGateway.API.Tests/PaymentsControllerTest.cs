@@ -35,7 +35,7 @@ namespace Study.PaymentGateway.API.Tests
             paymentDto.TotalCost = 0.00m;
 
             this.paymentAppService
-                .Setup(s => s.ProcessPayment(It.IsAny<PaymentDTO>()))
+                .Setup(s => s.ProcessPaymentAsync(It.IsAny<PaymentDTO>()))
                 .ReturnsAsync(new HttpResponseDTO<PaymentDTO>
                 {
                     ErrorMessages = It.IsAny<List<string>>(),
@@ -61,7 +61,7 @@ namespace Study.PaymentGateway.API.Tests
             paymentDto.TotalCost = 100;
 
             this.paymentAppService
-                .Setup(s => s.ProcessPayment(It.IsAny<PaymentDTO>()))
+                .Setup(s => s.ProcessPaymentAsync(It.IsAny<PaymentDTO>()))
                 .ReturnsAsync(new HttpResponseDTO<PaymentDTO>
                 {
                     ErrorMessages = It.IsAny<List<string>>(),

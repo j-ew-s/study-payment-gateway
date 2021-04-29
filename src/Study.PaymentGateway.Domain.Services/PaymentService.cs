@@ -15,7 +15,7 @@ namespace Study.PaymentGateway.Domain.Services
             this.paymentRepository = paymentRepository;
         }
 
-        public async Task<Payment> ProcessPayment(Payment payment)
+        public async Task<Payment> ProcessPaymentAsync(Payment payment)
         {
             if (payment == null || !payment.IsValid())
                 return payment;

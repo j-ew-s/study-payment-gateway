@@ -82,7 +82,7 @@ namespace Study.PaymentGateway.Domain.Services.Tests
             var response = await this.merchantService.Payments(Guid.NewGuid());
 
             // Assert
-            Assert.True(response.Any());
+            Assert.NotNull(response);
         }
 
         [Fact]

@@ -37,7 +37,7 @@ namespace Study.PaymentGateway.App.Services.Tests
             expected.Response = paymentDTO;
 
             this.mockPaymentService
-                .Setup(s => s.ProcessPayment(It.IsAny<Payment>()))
+                .Setup(s => s.ProcessPaymentAsync(It.IsAny<Payment>()))
                 .ReturnsAsync(payment);
 
             this.mockMapper
@@ -49,7 +49,7 @@ namespace Study.PaymentGateway.App.Services.Tests
                 .Returns(paymentDTO);
 
             // Act
-            var response = await paymentAppService.ProcessPayment(paymentDTO);
+            var response = await paymentAppService.ProcessPaymentAsync(paymentDTO);
 
             // Assert
             Assert.Equal(expected.Status, response.Status);
@@ -60,14 +60,22 @@ namespace Study.PaymentGateway.App.Services.Tests
         public async Task ProcessPayment_WhenInvalidValidPayment_ReturnHttpResponseStatus400()
         {
             // Arrange
-            var payment = fixture.Create<PaymentDTO>();
-            payment.Card = new Shared.DTO.Cards.CardDTO();
+            var paymentDto = fixture.Create<PaymentDTO>();
+            paymentDto.Card = new Shared.DTO.Cards.CardDTO();
+
+            var payment = fixture.Create<Payment>();
+            payment.Card = new Domain.Entities.Cards.Card();
+            payment.IsValid();
 
             var expected = new HttpResponseDTO<PaymentDTO>();
             expected.Status = 400;
 
+            this.mockPaymentService
+                .Setup(s => s.ProcessPaymentAsync(It.IsAny<Payment>()))
+                .ReturnsAsync(payment);
+
             // Act
-            var response = await paymentAppService.ProcessPayment(payment);
+            var response = await paymentAppService.ProcessPaymentAsync(paymentDto);
 
             // Assert
             Assert.Equal(expected.Status, response.Status);

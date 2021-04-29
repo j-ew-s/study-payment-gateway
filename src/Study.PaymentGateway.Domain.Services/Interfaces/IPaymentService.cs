@@ -10,6 +10,6 @@ namespace Study.PaymentGateway.Domain.Services.Interfaces
         /// </summary>
         /// <param name="payment">Payment</param>
         /// <returns>True : Valid, False : Invalid</returns>
-        Task<Payment> ProcessPayment(Payment payment);
+        Task<Payment> ProcessPaymentAsync(Payment payment);
     }
 }

@@ -9,7 +9,6 @@ using Study.PaymentGateway.Domain.Entities.Payments;
 using Study.PaymentGateway.Domain.Repository;
 using Study.PaymentGateway.Repository.MongoDB.Configuration.Interfaces;
 using Study.PaymentGateway.Repository.MongoDB.Entities.Payment;
-using Study.PaymentGateway.Shared.DTO.QueryResponses.PagedItems;
 
 namespace Study.PaymentGateway.Repository.MongoDB.Repository
 {
@@ -37,28 +36,6 @@ namespace Study.PaymentGateway.Repository.MongoDB.Repository
             var updateResult = await this.mongoDBConfiguration.Payment.ReplaceOneAsync(filter, payment);
 
             return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
-        }
-
-        public async Task<bool> DeleteAsync(Payment entity)
-        {
-            var filter = Builders<PaymentMongo>.Filter.Eq(payment => payment.Id, entity.Id);
-
-            var deleteResult = await this.mongoDBConfiguration.Payment.DeleteOneAsync(filter);
-
-            return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
-        }
-
-        public async Task<IReadOnlyList<Payment>> GetAsync(Expression<Func<Payment, bool>> predicate)
-        {
-            var mappedPredicate = this.mapper.Map<Expression<Func<PaymentMongo, bool>>>(predicate);
-
-            var filter = Builders<PaymentMongo>.Filter.Where(mappedPredicate);
-
-            var paymentsMongo = await this.mongoDBConfiguration.Payment.FindAsync(filter);
-
-            var payments = this.mapper.Map<List<Payment>>(paymentsMongo.ToList());
-
-            return payments;
         }
 
         public async Task<IReadOnlyList<Payment>> GetByIdAsync(Guid id)
@@ -102,15 +79,6 @@ namespace Study.PaymentGateway.Repository.MongoDB.Repository
         public async Task<PagedResult<Payment>> GetPaymentByClientNameAsync(string clientName, int currentPage, int itemsPerPage)
         {
             var filter = Builders<PaymentMongo>.Filter.Eq(p => p.Card.Name, clientName);
-
-            var query = this.mongoDBConfiguration.Payment.Find(filter);
-
-            return await this.Paginate(query, currentPage, itemsPerPage);
-        }
-
-        public async Task<PagedResult<Payment>> GetPaymentByTotalValueAsync(decimal totalValue, int currentPage, int itemsPerPage)
-        {
-            var filter = Builders<PaymentMongo>.Filter.Eq(p => p.TotalCost, totalValue);
 
             var query = this.mongoDBConfiguration.Payment.Find(filter);
 

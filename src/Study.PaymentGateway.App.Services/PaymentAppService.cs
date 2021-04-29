@@ -21,16 +21,11 @@ namespace Study.PaymentGateway.App.Services
             this.mapper = mapper;
         }
 
-        public async Task<HttpResponseDTO<PaymentDTO>> ProcessPayment(PaymentDTO paymentDto)
+        public async Task<HttpResponseDTO<PaymentDTO>> ProcessPaymentAsync(PaymentDTO paymentDto)
         {
             var payment = this.mapper.Map<Payment>(paymentDto);
 
-            if (!payment.IsValid())
-            {
-                return HttpResponseFactory.Create(paymentDto, payment.ErrorMessages, HttpActionEnum.Insert);
-            }
-
-            payment = await this.paymentService.ProcessPayment(payment);
+            payment = await this.paymentService.ProcessPaymentAsync(payment);
 
             paymentDto = this.mapper.Map<PaymentDTO>(payment);
 

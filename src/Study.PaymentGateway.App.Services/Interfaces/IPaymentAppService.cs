@@ -6,6 +6,6 @@ namespace Study.PaymentGateway.App.Services.Interfaces
 {
     public interface IPaymentAppService
     {
-        Task<HttpResponseDTO<PaymentDTO>> ProcessPayment(PaymentDTO paymentDto);
+        Task<HttpResponseDTO<PaymentDTO>> ProcessPaymentAsync(PaymentDTO paymentDto);
     }
 }

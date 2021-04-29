@@ -25,7 +25,7 @@
         [HttpPost]
         public async Task<IActionResult> ProcessPayment(PaymentDTO paymentDto)
         {
-            var result = await this.paymentAppService.ProcessPayment(paymentDto);
+            var result = await this.paymentAppService.ProcessPaymentAsync(paymentDto);
 
             var locationName = nameof(ProcessPayment);
             var responseObject = new

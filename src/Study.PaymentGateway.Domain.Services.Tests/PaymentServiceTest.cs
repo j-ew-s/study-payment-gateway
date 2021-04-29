@@ -31,7 +31,7 @@ namespace Study.PaymentGateway.Domain.Services.Tests
                 .Verifiable();
 
             // Act
-            var response = await paymentService.ProcessPayment(payment);
+            var response = await paymentService.ProcessPaymentAsync(payment);
 
             // Assert
             Assert.True(response.IsValid());
@@ -50,7 +50,7 @@ namespace Study.PaymentGateway.Domain.Services.Tests
             // Arrange
 
             // Act
-            var response = await paymentService.ProcessPayment(null);
+            var response = await paymentService.ProcessPaymentAsync(null);
 
             // Assert
             Assert.Null(response);
@@ -69,7 +69,7 @@ namespace Study.PaymentGateway.Domain.Services.Tests
             var payment = PaymentGenerate.GetInvalidPayment_TotalCostZero();
 
             // Act
-            var response = await paymentService.ProcessPayment(payment);
+            var response = await paymentService.ProcessPaymentAsync(payment);
 
             // Assert
             Assert.False(response.IsValid());
