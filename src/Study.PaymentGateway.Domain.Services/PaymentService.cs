@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Study.PaymentGateway.Domain.Entities.Payments;
 using Study.PaymentGateway.Domain.Repository;
@@ -13,6 +15,16 @@ namespace Study.PaymentGateway.Domain.Services
         public PaymentService(IPaymentRepository paymentRepository)
         {
             this.paymentRepository = paymentRepository;
+        }
+
+        public async Task<List<Payment>> GetByIdAsync(Guid id)
+        {
+            if (Guid.Empty.Equals(id))
+                return null;
+
+            var payments = await this.paymentRepository.GetByIdAsync(id);
+
+            return payments.ToList();
         }
 
         public async Task<Payment> ProcessPaymentAsync(Payment payment)

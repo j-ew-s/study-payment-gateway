@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoFixture;
 using Moq;
@@ -77,6 +79,48 @@ namespace Study.PaymentGateway.Domain.Services.Tests
                 .Verify(
                     v => v.InsertAsync(It.IsAny<Payment>()),
                     Times.Never,
+                    "PaymentRepository was called");
+        }
+
+        [Fact]
+        public async Task GetByIdAsync_When_GuidIsInvalid_Returns_Null()
+        {
+            // Arrange
+            var paymentId = Guid.Empty;
+
+            // Act
+            var response = await paymentService.GetByIdAsync(paymentId);
+
+            // Assert
+            Assert.Null(response);
+            this.mockPaymentRepository
+                .Verify(
+                    v => v.GetByIdAsync(It.Is<Guid>(s => s == paymentId)),
+                    Times.Never,
+                    "PaymentRepository should not being called");
+        }
+
+        [Fact]
+        public async Task GetByIdAsync_When_GuidIsValid_Returns_PaymentsList()
+        {
+            // Arrange
+            var paymentId = Guid.NewGuid();
+            List<Payment> payments = this.fixture.Create<List<Payment>>();
+
+            this.mockPaymentRepository
+                .Setup(s => s.GetByIdAsync(paymentId))
+                .ReturnsAsync(payments);
+
+            // Act
+            var response = await paymentService.GetByIdAsync(paymentId);
+
+            // Assert
+            Assert.NotNull(response);
+
+            this.mockPaymentRepository
+                .Verify(
+                    v => v.GetByIdAsync(It.IsAny<Guid>()),
+                    Times.Once,
                     "PaymentRepository was called");
         }
     }

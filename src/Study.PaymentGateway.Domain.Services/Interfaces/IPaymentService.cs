@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Study.PaymentGateway.Domain.Entities.Payments;
 
 namespace Study.PaymentGateway.Domain.Services.Interfaces
@@ -11,5 +13,7 @@ namespace Study.PaymentGateway.Domain.Services.Interfaces
         /// <param name="payment">Payment</param>
         /// <returns>True : Valid, False : Invalid</returns>
         Task<Payment> ProcessPaymentAsync(Payment payment);
+
+        Task<List<Payment>> GetByIdAsync(Guid id);
     }
 }
