@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoFixture;
 using Moq;
+using Study.PaymentGateway.Domain.Entities.Paging;
 using Study.PaymentGateway.Domain.Entities.Payments;
 using Study.PaymentGateway.Domain.Repository;
 using Study.PaymentGateway.Domain.Services.Tests.Util.TestDataGenerator;
@@ -101,11 +102,11 @@ namespace Study.PaymentGateway.Domain.Services.Tests
         }
 
         [Fact]
-        public async Task GetByIdAsync_When_GuidIsValid_Returns_PaymentsList()
+        public async Task GetByIdAsync_When_GuidIsValid_Returns_Payment()
         {
             // Arrange
             var paymentId = Guid.NewGuid();
-            List<Payment> payments = this.fixture.Create<List<Payment>>();
+            var payments = this.fixture.Create<Payment>();
 
             this.mockPaymentRepository
                 .Setup(s => s.GetByIdAsync(paymentId))
@@ -122,6 +123,100 @@ namespace Study.PaymentGateway.Domain.Services.Tests
                     v => v.GetByIdAsync(It.IsAny<Guid>()),
                     Times.Once,
                     "PaymentRepository was called");
+        }
+
+        [Fact]
+        public async Task GetPaymentByMerchantIdAsync_When_GuidIsInvalid_Returns_Null()
+        {
+            // Arrange
+            var merchantId = Guid.Empty;
+
+            // Act
+            var response = await paymentService.GetPaymentByMerchantIdAsync(merchantId);
+
+            // Assert
+            Assert.Null(response);
+            this.mockPaymentRepository
+                .Verify(
+                    v => v.GetPaymentByMerchantIdAsync(It.Is<Guid>(s => s == merchantId)),
+                    Times.Never,
+                    "PaymentRepository was called");
+        }
+
+        [Fact]
+        public async Task GetPaymentByMerchantIdAsync_When_GuidIsValid_Returns_PaymentsList()
+        {
+            // Arrange
+            var paymentId = Guid.NewGuid();
+            var payments = this.fixture.Create<List<Payment>>();
+
+            this.mockPaymentRepository
+                .Setup(s => s.GetPaymentByMerchantIdAsync(paymentId))
+                .ReturnsAsync(payments);
+
+            // Act
+            var response = await paymentService.GetPaymentByMerchantIdAsync(paymentId);
+
+            // Assert
+            Assert.NotNull(response);
+
+            this.mockPaymentRepository
+                .Verify(
+                    v => v.GetPaymentByMerchantIdAsync(It.IsAny<Guid>()),
+                    Times.Once,
+                    "PaymentRepository was not called");
+        }
+
+        [Fact]
+        public async Task GetPaymentByCardNumberAsync_When_GuidIsInvalid_Returns_Null()
+        {
+            // Arrange
+            var cardNumber = 0;
+            var currentPage = 0;
+            var itemsPerPage = 10;
+
+            // Act
+            var response = await paymentService.GetPaymentByCardNumberAsync(cardNumber, currentPage, itemsPerPage);
+
+            // Assert
+            Assert.Null(response);
+            this.mockPaymentRepository
+                .Verify(
+                    v => v.GetPaymentByCardNumberAsync(
+                        It.Is<int>(s => s == cardNumber),
+                        It.Is<int>(s => s == currentPage),
+                        It.Is<int>(s => s == itemsPerPage)),
+                    Times.Never,
+                    "PaymentRepository was called");
+        }
+
+        [Fact]
+        public async Task GetPaymentByCardNumberAsync_When_GuidIsValid_Returns_PaymentsList()
+        {
+            // Arrange
+            var cardNumber = 1001001000010112;
+            var currentPage = 0;
+            var itemsPerPage = 10;
+
+            var payments = this.fixture.Create<PagedResult<Payment>>();
+
+            this.mockPaymentRepository
+               .Setup(s => s.GetPaymentByCardNumberAsync(cardNumber, currentPage, itemsPerPage))
+               .ReturnsAsync(payments);
+
+            // Act
+            var response = await paymentService.GetPaymentByCardNumberAsync(cardNumber, currentPage, itemsPerPage);
+
+            // Assert
+            Assert.NotNull(response);
+            this.mockPaymentRepository
+                .Verify(
+                    v => v.GetPaymentByCardNumberAsync(
+                        It.Is<int>(s => s == cardNumber),
+                        It.Is<int>(s => s == currentPage),
+                        It.Is<int>(s => s == itemsPerPage)),
+                    Times.Never,
+                    "PaymentRepository was not called");
         }
     }
 }

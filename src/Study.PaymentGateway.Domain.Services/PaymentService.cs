@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Study.PaymentGateway.Domain.Entities.Paging;
 using Study.PaymentGateway.Domain.Entities.Payments;
 using Study.PaymentGateway.Domain.Repository;
 using Study.PaymentGateway.Domain.Services.Interfaces;
@@ -17,14 +18,33 @@ namespace Study.PaymentGateway.Domain.Services
             this.paymentRepository = paymentRepository;
         }
 
-        public async Task<List<Payment>> GetByIdAsync(Guid id)
+        public async Task<Payment> GetByIdAsync(Guid id)
         {
             if (Guid.Empty.Equals(id))
                 return null;
 
-            var payments = await this.paymentRepository.GetByIdAsync(id);
+            return await this.paymentRepository.GetByIdAsync(id);
+        }
 
-            return payments.ToList();
+        public async Task<PagedResult<Payment>> GetPaymentByCardNumberAsync(long cardNumber, int currentPage, int itemsPerPage)
+        {
+            if (cardNumber == default)
+                return null;
+
+            if (itemsPerPage == 0)
+                itemsPerPage = 10;
+
+            return await this.paymentRepository.GetPaymentByCardNumberAsync(cardNumber, currentPage, itemsPerPage);
+        }
+
+        public async Task<IReadOnlyList<Payment>> GetPaymentByMerchantIdAsync(Guid id)
+        {
+            if (Guid.Empty.Equals(id))
+                return null;
+
+            var payment = await this.paymentRepository.GetPaymentByMerchantIdAsync(id);
+
+            return payment.ToList();
         }
 
         public async Task<Payment> ProcessPaymentAsync(Payment payment)

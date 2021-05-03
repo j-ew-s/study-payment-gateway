@@ -12,7 +12,7 @@ namespace Study.PaymentGateway.Domain.Repository
 
         Task<bool> UpdadateAsync(T entity);
 
-        Task<IReadOnlyList<T>> GetByIdAsync(Guid id);
+        Task<T> GetByIdAsync(Guid id);
 
         Task<PagedResult<T>> GetPagedAsync(Expression<Func<T, bool>> predicate, int currentPage, int itemsPerPage);
     }

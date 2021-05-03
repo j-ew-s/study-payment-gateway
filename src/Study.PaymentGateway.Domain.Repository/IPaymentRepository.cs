@@ -10,8 +10,6 @@ namespace Study.PaymentGateway.Domain.Repository
     {
         Task<IReadOnlyList<Payment>> GetPaymentByMerchantIdAsync(Guid id);
 
-        Task<PagedResult<Payment>> GetPaymentByClientNameAsync(string clientName, int currentPage, int itemsPerPage);
-
-        Task<PagedResult<Payment>> GetPaymentByCardNumberAsync(int cardNumber, int currentPage, int itemsPerPage);
+        Task<PagedResult<Payment>> GetPaymentByCardNumberAsync(long cardNumber, int currentPage, int itemsPerPage);
     }
 }

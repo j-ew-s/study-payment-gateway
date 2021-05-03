@@ -38,13 +38,13 @@ namespace Study.PaymentGateway.Repository.MongoDB.Repository
             return updateResult.IsAcknowledged && updateResult.ModifiedCount > 0;
         }
 
-        public async Task<IReadOnlyList<Payment>> GetByIdAsync(Guid id)
+        public async Task<Payment> GetByIdAsync(Guid id)
         {
             var filter = Builders<PaymentMongo>.Filter.Where(w => w.Id == id);
 
             var paymentsMongo = await this.mongoDBConfiguration.Payment.FindAsync(filter);
 
-            var payments = this.mapper.Map<List<Payment>>(paymentsMongo.ToList());
+            var payments = this.mapper.Map<Payment>(paymentsMongo.FirstOrDefault());
 
             return payments;
         }
@@ -67,18 +67,9 @@ namespace Study.PaymentGateway.Repository.MongoDB.Repository
             return await this.Paginate(query, currentPage, itemsPerPage);
         }
 
-        public async Task<PagedResult<Payment>> GetPaymentByCardNumberAsync(int cardNumber, int currentPage, int itemsPerPage)
+        public async Task<PagedResult<Payment>> GetPaymentByCardNumberAsync(long cardNumber, int currentPage, int itemsPerPage)
         {
             var filter = Builders<PaymentMongo>.Filter.Eq(p => p.Card.Number, cardNumber);
-
-            var query = this.mongoDBConfiguration.Payment.Find(filter);
-
-            return await this.Paginate(query, currentPage, itemsPerPage);
-        }
-
-        public async Task<PagedResult<Payment>> GetPaymentByClientNameAsync(string clientName, int currentPage, int itemsPerPage)
-        {
-            var filter = Builders<PaymentMongo>.Filter.Eq(p => p.Card.Name, clientName);
 
             var query = this.mongoDBConfiguration.Payment.Find(filter);
 
