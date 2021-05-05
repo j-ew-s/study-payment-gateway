@@ -31,7 +31,11 @@ namespace Study.PaymentGateway.App.Services
 
             var paymentDto = this.mapper.Map<PaymentDTO>(payment);
 
-            return HttpResponseFactory.Create(paymentDto, payment.ErrorMessages, HttpActionEnum.Get);
+            List<string> messages = new List<string>();
+            if (payment.Id == Guid.Empty)
+                messages.Add("Not Found");
+
+            return HttpResponseFactory.Create(paymentDto, messages, HttpActionEnum.Get);
         }
 
         public async Task<HttpResponseDTO<PagedResultDTO<PaymentDTO>>> GetPaymentByCardNumberAsync(long cardNumber, int currentPage, int itemsPerPage)
@@ -40,12 +44,7 @@ namespace Study.PaymentGateway.App.Services
 
             var pagedResultDto = this.mapper.Map<PagedResultDTO<PaymentDTO>>(pagedResult);
 
-            var errorMessages = pagedResult.Records
-                .Where(w => w.ErrorMessages.Any())
-                .SelectMany(s => s.ErrorMessages)
-                .ToList();
-
-            return HttpResponseFactory.Create(pagedResultDto, errorMessages, HttpActionEnum.GetQueryString);
+            return HttpResponseFactory.Create(pagedResultDto, pagedResultDto.Messages(), HttpActionEnum.GetQueryString);
         }
 
         public async Task<HttpResponseDTO<List<PaymentDTO>>> GetPaymentByMerchantIdAsync(Guid id)

@@ -17,7 +17,7 @@ namespace Study.PaymentGateway.App.Services.Factories
             var httpResponse = new HttpResponseDTO<T>();
 
             httpResponse.Status = GetStatus(messages.Count, httpAction);
-            httpResponse.ErrorMessages.AddRange(GetMessage(messages, httpAction));
+            httpResponse.ErrorMessages.AddRange(messages);
             httpResponse.Response = entity;
 
             return httpResponse;
@@ -49,21 +49,6 @@ namespace Study.PaymentGateway.App.Services.Factories
 
                 default:
                     return 200;
-            }
-        }
-
-        private static IReadOnlyList<string> GetMessage(IReadOnlyList<string> messages, HttpActionEnum httpAction)
-        {
-            var messageQuantity = messages.Count;
-
-            switch (httpAction)
-            {
-                case HttpActionEnum.Get:
-                case HttpActionEnum.GetQueryString:
-                    return messageQuantity > 0 ? new List<string>() { "Not Found" } : messages;
-
-                default:
-                    return messages;
             }
         }
 
