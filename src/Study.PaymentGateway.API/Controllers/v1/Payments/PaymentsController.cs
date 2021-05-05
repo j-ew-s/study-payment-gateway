@@ -1,5 +1,6 @@
 ﻿namespace Study.PaymentGateway.API.Controllers.v1.Payments
 {
+    using System;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using Study.PaymentGateway.API.Controllers.Base;
@@ -35,6 +36,14 @@
             };
 
             return ProcessResponse(locationName, responseObject, result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var result = await this.paymentAppService.GetByIdAsync(id);
+
+            return ProcessResponse(result);
         }
     }
 }

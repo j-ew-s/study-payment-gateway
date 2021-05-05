@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using AutoFixture;
@@ -78,6 +79,74 @@ namespace Study.PaymentGateway.API.Tests
             Assert.NotNull(createdResult);
             Assert.NotNull(createdResult.Value);
             Assert.Equal((int)HttpStatusCode.Created, createdResult.StatusCode);
+        }
+
+        [Fact]
+        public async Task PaymentsController_GetById_When_IdIsInvalid_Should_ReturnBadRequest()
+        {
+            //Arrange
+            this.paymentAppService
+                .Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
+                .ReturnsAsync(new HttpResponseDTO<PaymentDTO>
+                {
+                    ErrorMessages = It.IsAny<List<string>>(),
+                    Response = new PaymentDTO(),
+                    Status = (int)HttpStatusCode.BadRequest
+                });
+
+            // Act
+            var result = await this.paymentsController.GetById(Guid.Empty);
+
+            // Assert
+            Assert.NotNull(result);
+            var badrequestResult = result as BadRequestObjectResult;
+            Assert.NotNull(badrequestResult);
+        }
+
+        [Fact]
+        public async Task PaymentsController_GetById_When_IdIsValidButNotExisting_Should_ReturnNotFound()
+        {
+            //Arrange
+            this.paymentAppService
+                .Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
+                .ReturnsAsync(new HttpResponseDTO<PaymentDTO>
+                {
+                    ErrorMessages = It.IsAny<List<string>>(),
+                    Response = new PaymentDTO(),
+                    Status = (int)HttpStatusCode.NotFound
+                });
+
+            // Act
+            var result = await this.paymentsController.GetById(Guid.Empty);
+
+            // Assert
+            Assert.NotNull(result);
+            var badrequestResult = result as NotFoundObjectResult;
+            Assert.NotNull(badrequestResult);
+        }
+
+        [Fact]
+        public async Task PaymentsController_GetById_When_IdIsValidAndExisting_Should_ReturnOK()
+        {
+            //Arrange
+            var paymentDto = this.fixture.Create<PaymentDTO>();
+
+            this.paymentAppService
+                .Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
+                .ReturnsAsync(new HttpResponseDTO<PaymentDTO>
+                {
+                    ErrorMessages = It.IsAny<List<string>>(),
+                    Response = paymentDto,
+                    Status = (int)HttpStatusCode.OK
+                });
+
+            // Act
+            var result = await this.paymentsController.GetById(Guid.NewGuid());
+
+            // Assert
+            Assert.NotNull(result);
+            var badrequestResult = result as OkObjectResult;
+            Assert.NotNull(badrequestResult);
         }
     }
 }
