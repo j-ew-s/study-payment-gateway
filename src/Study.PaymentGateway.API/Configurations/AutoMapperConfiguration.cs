@@ -4,6 +4,7 @@ using Study.PaymentGateway.App.Mapper.Bases;
 using Study.PaymentGateway.App.Mapper.Cards;
 using Study.PaymentGateway.App.Mapper.Clients;
 using Study.PaymentGateway.App.Mapper.Merchants;
+using Study.PaymentGateway.App.Mapper.Paging;
 using Study.PaymentGateway.App.Mapper.Payments;
 using Study.PaymentGateway.Repository.MongoDB.Mapper.Addresses;
 using Study.PaymentGateway.Repository.MongoDB.Mapper.BankResponses;
@@ -37,6 +38,8 @@ namespace Study.PaymentGateway.API.Configurations
                 mc.AddProfile(new ShoppersMongoMap());
                 mc.AddProfile(new MerchantMongoMap());
                 mc.AddProfile(new IdentityMongoMap());
+
+                mc.AddProfile(new PagedResultMap());
             });
 
             Mapper = mappingConfig.CreateMapper();

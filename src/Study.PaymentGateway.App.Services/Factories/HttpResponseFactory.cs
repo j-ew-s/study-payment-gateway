@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Study.PaymentGateway.App.Services.Factories.Enums;
-using Study.PaymentGateway.Domain.Entities.Bases;
 using Study.PaymentGateway.Shared.DTO.HTTPResponses;
 
 namespace Study.PaymentGateway.App.Services.Factories

@@ -12,11 +12,7 @@ namespace Study.PaymentGateway.Domain.Repository
 
         Task<bool> UpdadateAsync(T entity);
 
-        Task<bool> DeleteAsync(T entity);
-
-        Task<IReadOnlyList<T>> GetByIdAsync(Guid id);
-
-        Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate);
+        Task<T> GetByIdAsync(Guid id);
 
         Task<PagedResult<T>> GetPagedAsync(Expression<Func<T, bool>> predicate, int currentPage, int itemsPerPage);
     }

@@ -9,7 +9,7 @@ namespace Study.PaymentGateway.Domain.Entities.Cards
     public class Card : Validation
     {
         public string Name { get; set; }
-        public Int64 Number { get; set; }
+        public long Number { get; set; }
         public string CVV { get; set; }
         public string Expiration { get; set; }
 
