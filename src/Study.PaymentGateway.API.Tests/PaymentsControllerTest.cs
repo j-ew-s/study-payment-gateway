@@ -8,8 +8,10 @@ using Moq;
 using Study.PaymentGateway.API.Controllers.v1.Merchant;
 using Study.PaymentGateway.API.Controllers.v1.Payments;
 using Study.PaymentGateway.App.Services.Interfaces;
+using Study.PaymentGateway.Domain.Entities.Paging;
 using Study.PaymentGateway.Shared.DTO.HTTPResponses;
 using Study.PaymentGateway.Shared.DTO.Payments;
+using Study.PaymentGateway.Shared.DTO.QueryResponses.PagedItems;
 using Xunit;
 
 namespace Study.PaymentGateway.API.Tests
@@ -142,6 +144,74 @@ namespace Study.PaymentGateway.API.Tests
 
             // Act
             var result = await this.paymentsController.GetById(Guid.NewGuid());
+
+            // Assert
+            Assert.NotNull(result);
+            var badrequestResult = result as OkObjectResult;
+            Assert.NotNull(badrequestResult);
+        }
+
+        [Fact]
+        public async Task PaymentsController_GetPaymentsByCardNumberPaged_When_IdIsInvalid_Should_ReturnBadRequest()
+        {
+            //Arrange
+            this.paymentAppService
+                .Setup(s => s.GetPaymentByCardNumberAsync(It.IsAny<long>(), It.IsAny<int>(), It.IsAny<int>()))
+                .ReturnsAsync(new HttpResponseDTO<PagedResultDTO<PaymentDTO>>
+                {
+                    ErrorMessages = It.IsAny<List<string>>(),
+                    Response = new PagedResultDTO<PaymentDTO>(),
+                    Status = (int)HttpStatusCode.BadRequest
+                });
+
+            // Act
+            var result = await this.paymentsController.GetPaymentsByCardNumberPaged(-1, 0, 0);
+
+            // Assert
+            Assert.NotNull(result);
+            var badrequestResult = result as BadRequestObjectResult;
+            Assert.NotNull(badrequestResult);
+        }
+
+        [Fact]
+        public async Task PaymentsController_GetPaymentsByCardNumberPaged_When_IdIsValidButNotExisting_Should_ReturnNotFound()
+        {
+            //Arrange
+            this.paymentAppService
+                .Setup(s => s.GetPaymentByCardNumberAsync(It.IsAny<long>(), It.IsAny<int>(), It.IsAny<int>()))
+                .ReturnsAsync(new HttpResponseDTO<PagedResultDTO<PaymentDTO>>
+                {
+                    ErrorMessages = It.IsAny<List<string>>(),
+                    Response = new PagedResultDTO<PaymentDTO>(),
+                    Status = (int)HttpStatusCode.NotFound
+                });
+
+            // Act
+            var result = await this.paymentsController.GetPaymentsByCardNumberPaged(0, 0, 0);
+
+            // Assert
+            Assert.NotNull(result);
+            var badrequestResult = result as NotFoundObjectResult;
+            Assert.NotNull(badrequestResult);
+        }
+
+        [Fact]
+        public async Task PaymentsController_GetPaymentsByCardNumberPaged_When_IdIsValidAndExisting_Should_ReturnOK()
+        {
+            //Arrange
+            var payment = this.fixture.Create<PagedResultDTO<PaymentDTO>>();
+
+            this.paymentAppService
+                .Setup(s => s.GetPaymentByCardNumberAsync(It.IsAny<long>(), It.IsAny<int>(), It.IsAny<int>()))
+                .ReturnsAsync(new HttpResponseDTO<PagedResultDTO<PaymentDTO>>
+                {
+                    ErrorMessages = It.IsAny<List<string>>(),
+                    Response = payment,
+                    Status = (int)HttpStatusCode.OK
+                });
+
+            // Act
+            var result = await this.paymentsController.GetPaymentsByCardNumberPaged(1234567891234567, 0, 0);
 
             // Assert
             Assert.NotNull(result);
