@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Study.PaymentGateway.API.Controllers.Base;
     using Study.PaymentGateway.App.Services.Interfaces;
@@ -22,8 +23,12 @@
         /// Process a Payment.
         /// </summary>
         /// <param name="paymentDto">PAYMENT Object</param>
-        /// <returns>Response Obj</returns>
+        /// <returns>the new created PAYMENT/returns>
+        /// <response code="201">HTTPResponse with the newly created Payment</response>
+        /// <response code="400">HTTPResponse with the PaymentDTO indicating the errors</response>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> ProcessPayment(PaymentDTO paymentDto)
         {
             var result = await this.paymentAppService.ProcessPaymentAsync(paymentDto);
@@ -43,7 +48,11 @@
         /// </summary>
         /// <param name="id">Payment's ID</param>
         /// <returns>Returns a Payment when its found</returns>
+        /// <response code="200">HTTPResponse with the found Payment</response>
+        /// <response code="400">HTTPResponse with the PaymentDTO indicating the errors</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetById(Guid id)
         {
             var result = await this.paymentAppService.GetByIdAsync(id);
@@ -58,7 +67,11 @@
         /// <param name="currentPage"> Current page from pagination</param>
         /// <param name="itemsPerPage"> Total items per page</param>
         /// <returns> A paged result presenting all the Payments.</returns>
+        /// <response code="204">HTTPResponse with PagedResult containing the found Payments</response>
+        /// <response code="400">HTTPResponse with PagedResult containing the PaymentDTO indicating the errors</response>
         [HttpGet("")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetPaymentsByCardNumberPaged(int cardNumber, int currentPage, int itemsPerPage)
         {
             var result = await this.paymentAppService.GetPaymentByCardNumberAsync(cardNumber, currentPage, itemsPerPage);

@@ -1,6 +1,9 @@
 namespace Study.PaymentGateway.API
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using System.Reflection;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -43,7 +46,21 @@ namespace Study.PaymentGateway.API
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Study.PaymentGateway.API", Version = "v1" });
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Title = "Study.PaymentGateway.API",
+                        Version = "v1",
+                        Contact = new OpenApiContact
+                        {
+                            Name = "My Company Description",
+                            Email = "contact@contac.com",
+                        },
+                        Description = "API Gateway for OurComp associated Merchants"
+                    });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
 
             // Scoped
