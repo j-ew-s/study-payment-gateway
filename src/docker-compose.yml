@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+
+  study.paymentgateway.db:
+    image : mongo
+
+  study.paymentgateway.api:
+    image: ${DOCKER_REGISTRY-}study-paymentgateway-api
+    build:
+      context: .
+      dockerfile: Study.PaymentGateway.API/Dockerfile
+

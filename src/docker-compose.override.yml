@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+
+  study.paymentgateway.db:
+    container_name:  study.paymentgateway.db
+    volumes:
+      - ${APPDATA}/site:/data/db
+    ports:
+      - "27017:27017"
+
+  study.paymentgateway.api:
+    container_name: study.paymanetgateway.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "MongoDBSettings:ConnectionString=mongodb://study.paymentgateway.db:27017"
+    depends_on:
+      - study.paymentgateway.db
+    ports:
+      - "5000:80"
+    volumes:
+      - ${APPDATA}/Microsoft/usersecrets/:/root/.microsoft/usersecrets
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https/
+      
