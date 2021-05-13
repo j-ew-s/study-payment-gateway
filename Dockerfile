@@ -21,7 +21,7 @@ COPY ["src/Study.PaymentGateway.Domain.AcquiringBanksGateway/Study.PaymentGatewa
 COPY ["src/Study.PaymentGateway.App.Mapper/Study.PaymentGateway.App.Mapper.csproj", "Study.PaymentGateway.App.Mapper/"]
 RUN dotnet restore "Study.PaymentGateway.API/Study.PaymentGateway.API.csproj"
 COPY . .
-WORKDIR "Study.PaymentGateway.API"
+WORKDIR "src/Study.PaymentGateway.API"
 RUN dotnet build "Study.PaymentGateway.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
