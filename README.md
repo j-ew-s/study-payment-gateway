@@ -1,5 +1,7 @@
 # Payment Gateway API
 
+[![.NET](https://github.com/j-ew-s/study-payment-gateway/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/j-ew-s/study-payment-gateway/actions/workflows/dotnet.yml)
+
 Payment Gateway APi is responsible to process Shopper's payment across multiple Acquiring Banks, being able to address a sucessful processment and handle errors and frauds.
 
 #### Main actions :
