@@ -22,12 +22,12 @@ COPY ["src/Study.PaymentGateway.App.Mapper/Study.PaymentGateway.App.Mapper.cspro
 RUN dotnet restore "Study.PaymentGateway.API/Study.PaymentGateway.API.csproj"
 COPY . .
 WORKDIR "/src/Study.PaymentGateway.API"
-RUN dotnet build "src/Study.PaymentGateway.API/Study.PaymentGateway.API.csproj" -c Release -o /app/build
+RUN dotnet build "Study.PaymentGateway.API/Study.PaymentGateway.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "src/Study.PaymentGateway.API/Study.PaymentGateway.API.csproj" -c Release -o /app/publish
+RUN dotnet publish "Study.PaymentGateway.API/Study.PaymentGateway.API.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Study.PaymentGateway.API.dll"]
+ENTRYPOINT ["dotnet", "Study.PaymentGateway.API/Study.PaymentGateway.API.dll"]
