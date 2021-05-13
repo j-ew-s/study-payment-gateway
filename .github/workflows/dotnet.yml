@@ -19,8 +19,10 @@ jobs:
         dotnet-version: 5.0.x
     - name: Restore dependencies
       run: dotnet restore
+    - name: Navigating to Source
+      run : cd src/Study.PaymentGateway.API
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore 
     - name: Test
       run: dotnet test --no-build --verbosity normal
     
