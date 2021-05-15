@@ -25,33 +25,34 @@ namespace Study.PaymentGateway.App.Services
             this.mapper = mapper;
         }
 
-        public async Task<HttpResponseDTO<PaymentDTO>> GetByIdAsync(Guid id)
+        public async Task<HttpResponseDTO<PaymentResponseDTO>> GetByIdAsync(Guid id)
         {
             var payment = await this.paymentService.GetByIdAsync(id);
 
-            var paymentDto = this.mapper.Map<PaymentDTO>(payment);
+            var paymentDto = this.mapper.Map<PaymentResponseDTO>(payment);
 
             List<string> messages = new List<string>();
+
             if (payment.Id == Guid.Empty)
                 messages.Add("Not Found");
 
             return HttpResponseFactory.Create(paymentDto, messages, HttpActionEnum.Get);
         }
 
-        public async Task<HttpResponseDTO<PagedResultDTO<PaymentDTO>>> GetPaymentByCardNumberAsync(long cardNumber, int currentPage, int itemsPerPage)
+        public async Task<HttpResponseDTO<PagedResultsDTO<PaymentResponseDTO>>> GetPaymentByCardNumberAsync(long cardNumber, int currentPage, int itemsPerPage)
         {
             var pagedResult = await this.paymentService.GetPaymentByCardNumberAsync(cardNumber, currentPage, itemsPerPage);
 
-            var pagedResultDto = this.mapper.Map<PagedResultDTO<PaymentDTO>>(pagedResult);
+            var pagedResultDto = this.mapper.Map<PagedResultsDTO<PaymentResponseDTO>>(pagedResult);
 
             return HttpResponseFactory.Create(pagedResultDto, pagedResultDto.Messages(), HttpActionEnum.GetQueryString);
         }
 
-        public async Task<HttpResponseDTO<List<PaymentDTO>>> GetPaymentByMerchantIdAsync(Guid id)
+        public async Task<HttpResponseDTO<List<PaymentResponseDTO>>> GetPaymentByMerchantIdAsync(Guid id)
         {
             var payment = await this.paymentService.GetPaymentByMerchantIdAsync(id);
 
-            var paymentDto = this.mapper.Map<List<PaymentDTO>>(payment);
+            var paymentDto = this.mapper.Map<List<PaymentResponseDTO>>(payment);
 
             var errorMessages = payment
                .Where(w => w.ErrorMessages.Any())
@@ -61,15 +62,15 @@ namespace Study.PaymentGateway.App.Services
             return HttpResponseFactory.Create(paymentDto, errorMessages, HttpActionEnum.Get);
         }
 
-        public async Task<HttpResponseDTO<PaymentDTO>> ProcessPaymentAsync(PaymentDTO paymentDto)
+        public async Task<HttpResponseDTO<PaymentResponseDTO>> ProcessPaymentAsync(PaymentDTO paymentDto)
         {
             var payment = this.mapper.Map<Payment>(paymentDto);
 
             payment = await this.paymentService.ProcessPaymentAsync(payment);
 
-            paymentDto = this.mapper.Map<PaymentDTO>(payment);
+            var paymentResponseDto = this.mapper.Map<PaymentResponseDTO>(payment);
 
-            return HttpResponseFactory.Create(paymentDto, payment.ErrorMessages, HttpActionEnum.Insert);
+            return HttpResponseFactory.Create(paymentResponseDto, payment.ErrorMessages, HttpActionEnum.Insert);
         }
     }
 }

@@ -12,6 +12,11 @@ namespace Study.PaymentGateway.App.Mapper.Payments
                 .ForMember(d => d.Card, opt => opt.MapFrom(src => src.Card))
                 .ForMember(d => d.Shopper, opt => opt.MapFrom(src => src.Shopper))
                 .ReverseMap();
+
+            CreateMap<PaymentResponseDTO, Payment>()
+               .ForMember(d => d.Card, opt => opt.MapFrom(src => src.Card))
+               .ForMember(d => d.Shopper, opt => opt.MapFrom(src => src.Shopper))
+               .ReverseMap();
         }
     }
 }

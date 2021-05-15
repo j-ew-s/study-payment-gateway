@@ -36,6 +36,6 @@ namespace Study.PaymentGateway.Domain.Services.Interfaces
         /// <param name="currentPage">Current Page</param>
         /// <param name="itemsPerPage">Itens per page</param>
         /// <returns>a Paged object of Payment</returns>
-        Task<PagedResult<Payment>> GetPaymentByCardNumberAsync(long cardNumber, int currentPage, int itemsPerPage);
+        Task<PagedResults<Payment>> GetPaymentByCardNumberAsync(long cardNumber, int currentPage, int itemsPerPage);
     }
 }

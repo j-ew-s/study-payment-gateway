@@ -9,12 +9,12 @@ namespace Study.PaymentGateway.App.Services.Interfaces
 {
     public interface IPaymentAppService
     {
-        Task<HttpResponseDTO<PaymentDTO>> ProcessPaymentAsync(PaymentDTO paymentDto);
+        Task<HttpResponseDTO<PaymentResponseDTO>> ProcessPaymentAsync(PaymentDTO paymentDto);
 
-        Task<HttpResponseDTO<PaymentDTO>> GetByIdAsync(Guid id);
+        Task<HttpResponseDTO<PaymentResponseDTO>> GetByIdAsync(Guid id);
 
-        Task<HttpResponseDTO<List<PaymentDTO>>> GetPaymentByMerchantIdAsync(Guid id);
+        Task<HttpResponseDTO<List<PaymentResponseDTO>>> GetPaymentByMerchantIdAsync(Guid id);
 
-        Task<HttpResponseDTO<PagedResultDTO<PaymentDTO>>> GetPaymentByCardNumberAsync(long cardNumber, int currentPage, int itemsPerPage);
+        Task<HttpResponseDTO<PagedResultsDTO<PaymentResponseDTO>>> GetPaymentByCardNumberAsync(long cardNumber, int currentPage, int itemsPerPage);
     }
 }

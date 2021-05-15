@@ -3,7 +3,7 @@ using Study.PaymentGateway.Shared.DTO.Bases;
 
 namespace Study.PaymentGateway.Shared.DTO.Clients
 {
-    public class ShopperDTO : IdentityDTO
+    public class ShopperDTO
     {
         public ShopperDTO()
         {

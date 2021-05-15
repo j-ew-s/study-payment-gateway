@@ -2,9 +2,9 @@
 
 namespace Study.PaymentGateway.Shared.DTO.QueryResponses.PagedItems
 {
-    public class PagedResultDTO<T> where T : class
+    public class PagedResultsDTO<T> where T : class
     {
-        public PagedResultDTO()
+        public PagedResultsDTO()
         {
             Records = new List<T>();
         }
