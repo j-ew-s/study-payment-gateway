@@ -4,7 +4,7 @@ using Study.PaymentGateway.Domain.Entities.Bases;
 
 namespace Study.PaymentGateway.Domain.Entities.Clients
 {
-    public class Shopper : Identity
+    public class Shopper : Validation
     {
         public Shopper()
         {

@@ -26,7 +26,7 @@ namespace Study.PaymentGateway.Domain.Services
             return await this.paymentRepository.GetByIdAsync(id);
         }
 
-        public async Task<PagedResult<Payment>> GetPaymentByCardNumberAsync(long cardNumber, int currentPage, int itemsPerPage)
+        public async Task<PagedResults<Payment>> GetPaymentByCardNumberAsync(long cardNumber, int currentPage, int itemsPerPage)
         {
             if (cardNumber == default)
                 return null;
@@ -55,7 +55,7 @@ namespace Study.PaymentGateway.Domain.Services
             payment.CreatedAt = DateTime.Now;
             payment.UpdatedAt = DateTime.Now;
 
-            await this.paymentRepository.InsertAsync(payment);
+            this.paymentRepository.InsertAsync(payment);
 
             return payment;
         }

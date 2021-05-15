@@ -2,7 +2,7 @@
 
 namespace Study.PaymentGateway.Domain.Entities.Paging
 {
-    public class PagedResult<T> where T : class
+    public class PagedResults<T> where T : class
     {
         public long TotalItems { get; set; }
         public int pageTotal;

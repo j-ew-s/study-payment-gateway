@@ -10,8 +10,10 @@ namespace Study.PaymentGateway.App.Mapper.Paging
     {
         public PagedResultMap()
         {
-            CreateMap<PagedResult<Payment>, PagedResultDTO<PaymentDTO>>();
-            CreateMap<PagedResultDTO<PaymentDTO>, PagedResult<Payment>>();
+            CreateMap<PagedResults<Payment>, PagedResultsDTO<PaymentDTO>>();
+            CreateMap<PagedResultsDTO<PaymentDTO>, PagedResults<Payment>>();
+            CreateMap<PagedResultsDTO<PaymentResponseDTO>, PagedResults<Payment>>();
+            CreateMap<PagedResults<Payment>, PagedResultsDTO<PaymentResponseDTO>>();
         }
     }
 }

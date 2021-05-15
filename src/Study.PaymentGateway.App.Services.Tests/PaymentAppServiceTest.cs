@@ -24,7 +24,7 @@ namespace Study.PaymentGateway.App.Services.Tests
         {
             this.mockPaymentService = new Mock<IPaymentService>();
 
-            this.paymentAppService = new PaymentAppService(this.mockPaymentService.Object, this.Map);
+            this.paymentAppService = new PaymentAppService(this.mockPaymentService.Object, this.mockMapper.Object);
         }
 
         [Fact]
@@ -90,25 +90,24 @@ namespace Study.PaymentGateway.App.Services.Tests
         public async Task GetByIdAsync_When_ValidPayment_Returns_HttpResponseStatus200()
         {
             // Arrange
-            var paymentDTO = PaymentGenerate.GetValidPaymentDTO();
-
+            var paymentresponseDTO = PaymentGenerate.GetValidPaymentResponseDTO();
             var payment = PaymentGenerate.GetValidPayment();
 
-            var expected = new HttpResponseDTO<PaymentDTO>();
+            var expected = new HttpResponseDTO<PaymentResponseDTO>();
             expected.Status = 200;
-            expected.ErrorMessages = new System.Collections.Generic.List<string>();
-            expected.Response = paymentDTO;
+            expected.ErrorMessages = new List<string>();
+            expected.Response = paymentresponseDTO;
 
             this.mockPaymentService
                 .Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
                 .ReturnsAsync(payment);
 
             this.mockMapper
-                .Setup(x => x.Map<PaymentDTO>(It.IsAny<Payment>()))
-                .Returns(paymentDTO);
+                .Setup(x => x.Map<PaymentResponseDTO>(It.IsAny<Payment>()))
+                .Returns(paymentresponseDTO);
 
             // Act
-            var response = await paymentAppService.GetByIdAsync(paymentDTO.Id);
+            var response = await paymentAppService.GetByIdAsync(paymentresponseDTO.Id);
 
             // Assert
             Assert.Equal(expected.Status, response.Status);
@@ -148,35 +147,29 @@ namespace Study.PaymentGateway.App.Services.Tests
         public async Task GetPaymentByCardNumberAsync_When_ValidPayment_Returns_HttpResponseStatus200()
         {
             // Arrange
-            var paymentDTO = PaymentGenerate.GetValidPaymentDTO();
+            var pagedResult = this.fixture.Create<PagedResults<Payment>>();
 
-            var payment = PaymentGenerate.GetValidPayment();
-            var pagedResult = this.fixture.Create<PagedResult<Payment>>();
+            var paymentResponseDTO = this.fixture.Create<PaymentResponseDTO>();
+            paymentResponseDTO.Card.Number = 1234;
 
-            var pagedMapped = this.fixture.Create<PagedResultDTO<PaymentDTO>>();
+            var pagedResultDTO = this.fixture.Create<PagedResultsDTO<PaymentResponseDTO>>();
+            pagedResultDTO.Records = new List<PaymentResponseDTO>() { paymentResponseDTO };
 
-            var fixturePaymentDTO = this.fixture.Create<PaymentDTO>();
-            fixturePaymentDTO.Card.CVV = "333";
-            fixturePaymentDTO.Card.Number = 1231231231231234;
-            fixturePaymentDTO.Card.Expiration = "12/21";
-
-            pagedMapped.Records = new List<PaymentDTO>() { fixturePaymentDTO };
-
-            var expected = new HttpResponseDTO<PaymentDTO>();
+            var expected = new HttpResponseDTO<PagedResultsDTO<PaymentResponseDTO>>();
             expected.Status = 200;
             expected.ErrorMessages = new List<string>();
-            expected.Response = paymentDTO;
+            expected.Response = pagedResultDTO;
 
             this.mockPaymentService
                 .Setup(s => s.GetPaymentByCardNumberAsync(It.IsAny<long>(), It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(pagedResult);
 
             this.mockMapper
-                .Setup(x => x.Map<PagedResultDTO<PaymentDTO>>(pagedResult))
-                .Returns(pagedMapped);
+                .Setup(x => x.Map<PagedResultsDTO<PaymentResponseDTO>>(pagedResult))
+                .Returns(pagedResultDTO);
 
             // Act
-            var response = await paymentAppService.GetPaymentByCardNumberAsync(paymentDTO.Card.Number, 0, 0);
+            var response = await paymentAppService.GetPaymentByCardNumberAsync(paymentResponseDTO.Card.Number, 0, 0);
 
             // Assert
             Assert.Equal(expected.Status, response.Status);
@@ -189,21 +182,19 @@ namespace Study.PaymentGateway.App.Services.Tests
             // Arrange
             var paymentDTO = PaymentGenerate.GetValidPaymentDTO();
 
-            var payment = PaymentGenerate.GetValidPayment();
-            PagedResult<Payment> pagedResult = new PagedResult<Payment>();
-            PagedResultDTO<PaymentDTO> pagedMapped = new PagedResultDTO<PaymentDTO>();
+            var pagedMapped = new PagedResultsDTO<PaymentResponseDTO>();
 
-            var expected = new HttpResponseDTO<PaymentDTO>();
+            var expected = new HttpResponseDTO<PagedResultsDTO<PaymentResponseDTO>>();
             expected.Status = 204;
             expected.ErrorMessages = pagedMapped.Messages();
             expected.Response = null;
 
             this.mockPaymentService
-                .Setup(s => s.GetPaymentByCardNumberAsync(It.IsAny<long>(), It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(pagedResult);
+                .Setup(s => s.GetPaymentByCardNumberAsync(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
+                .ReturnsAsync(It.IsAny<PagedResults<Payment>>());
 
             this.mockMapper
-                .Setup(x => x.Map<PagedResultDTO<PaymentDTO>>(pagedResult))
+                .Setup(x => x.Map<PagedResultsDTO<PaymentResponseDTO>>(It.IsAny<Payment>()))
                 .Returns(pagedMapped);
 
             // Act

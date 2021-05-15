@@ -8,12 +8,12 @@ namespace Study.PaymentGateway.Domain.Repository
 {
     public interface IBaseRepository<T> where T : class
     {
-        Task InsertAsync(T entity);
+        void InsertAsync(T entity);
 
         Task<bool> UpdadateAsync(T entity);
 
         Task<T> GetByIdAsync(Guid id);
 
-        Task<PagedResult<T>> GetPagedAsync(Expression<Func<T, bool>> predicate, int currentPage, int itemsPerPage);
+        Task<PagedResults<T>> GetPagedAsync(Expression<Func<T, bool>> predicate, int currentPage, int itemsPerPage);
     }
 }

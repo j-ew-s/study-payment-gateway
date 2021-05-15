@@ -61,5 +61,21 @@ namespace Study.PaymentGateway.App.Services.Tests.Util.DataGenerate
 
             return paymentDTO;
         }
+
+        public static PaymentResponseDTO GetValidPaymentResponseDTO()
+        {
+            var cardDTO = new CardResponseDTO()
+            {
+                Number = 1234,
+                Name = "Test Name"
+            };
+
+            var paymentDTO = fixture
+                .Build<PaymentResponseDTO>()
+                .With(w => w.Card, cardDTO)
+                .Create();
+
+            return paymentDTO;
+        }
     }
 }

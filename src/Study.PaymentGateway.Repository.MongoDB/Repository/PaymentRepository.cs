@@ -19,11 +19,11 @@ namespace Study.PaymentGateway.Repository.MongoDB.Repository
         {
         }
 
-        public async Task InsertAsync(Payment entity)
+        public void InsertAsync(Payment entity)
         {
             var payment = this.mapper.Map<PaymentMongo>(entity);
 
-            await this.mongoDBConfiguration.Payment.InsertOneAsync(payment);
+            this.mongoDBConfiguration.Payment.InsertOneAsync(payment);
         }
 
         public async Task<bool> UpdadateAsync(Payment entity)
@@ -58,7 +58,7 @@ namespace Study.PaymentGateway.Repository.MongoDB.Repository
             return this.mapper.Map<List<Payment>>(updateResult.ToList());
         }
 
-        public async Task<PagedResult<Payment>> GetPagedAsync(Expression<Func<Payment, bool>> predicate, int currentPage, int itemsPerPage)
+        public async Task<PagedResults<Payment>> GetPagedAsync(Expression<Func<Payment, bool>> predicate, int currentPage, int itemsPerPage)
         {
             var mappedPredicate = this.mapper.Map<Expression<Func<PaymentMongo, bool>>>(predicate);
 
@@ -67,18 +67,18 @@ namespace Study.PaymentGateway.Repository.MongoDB.Repository
             return await this.Paginate(query, currentPage, itemsPerPage);
         }
 
-        public async Task<PagedResult<Payment>> GetPaymentByCardNumberAsync(long cardNumber, int currentPage, int itemsPerPage)
+        public Task<PagedResults<Payment>> GetPaymentByCardNumberAsync(long cardNumber, int currentPage, int itemsPerPage)
         {
             var filter = Builders<PaymentMongo>.Filter.Eq(p => p.Card.Number, cardNumber);
 
             var query = this.mongoDBConfiguration.Payment.Find(filter);
 
-            return await this.Paginate(query, currentPage, itemsPerPage);
+            return this.Paginate(query, currentPage, itemsPerPage);
         }
 
-        private async Task<PagedResult<Payment>> Paginate(IFindFluent<PaymentMongo, PaymentMongo> query, int currentPage, int itemsPerPage)
+        private async Task<PagedResults<Payment>> Paginate(IFindFluent<PaymentMongo, PaymentMongo> query, int currentPage, int itemsPerPage)
         {
-            var paged = new PagedResult<Payment>();
+            var paged = new PagedResults<Payment>();
 
             paged.TotalItems = await query.CountDocumentsAsync();
 

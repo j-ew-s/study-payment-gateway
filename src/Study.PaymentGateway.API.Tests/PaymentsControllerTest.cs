@@ -33,16 +33,17 @@ namespace Study.PaymentGateway.API.Tests
         public async Task PaymentsController_ProcessPayment_WhenTotalCostIsZeroOrLess_ShouldReturnBadRequest()
         {
             //Arrange
+            var paymentResponseDto = this.fixture.Create<PaymentResponseDTO>();
             var paymentDto = this.fixture.Create<PaymentDTO>();
 
             paymentDto.TotalCost = 0.00m;
 
             this.paymentAppService
                 .Setup(s => s.ProcessPaymentAsync(It.IsAny<PaymentDTO>()))
-                .ReturnsAsync(new HttpResponseDTO<PaymentDTO>
+                .ReturnsAsync(new HttpResponseDTO<PaymentResponseDTO>
                 {
                     ErrorMessages = It.IsAny<List<string>>(),
-                    Response = paymentDto,
+                    Response = paymentResponseDto,
                     Status = (int)HttpStatusCode.BadRequest
                 });
 
@@ -59,16 +60,17 @@ namespace Study.PaymentGateway.API.Tests
         public async Task PaymentsController_ProcessPayment_WhenValidInput_ShouldReturnOk()
         {
             //Arrange
+            var paymentResponseDto = this.fixture.Create<PaymentResponseDTO>();
             var paymentDto = this.fixture.Create<PaymentDTO>();
 
             paymentDto.TotalCost = 100;
 
             this.paymentAppService
                 .Setup(s => s.ProcessPaymentAsync(It.IsAny<PaymentDTO>()))
-                .ReturnsAsync(new HttpResponseDTO<PaymentDTO>
+                .ReturnsAsync(new HttpResponseDTO<PaymentResponseDTO>
                 {
                     ErrorMessages = It.IsAny<List<string>>(),
-                    Response = paymentDto,
+                    Response = paymentResponseDto,
                     Status = (int)HttpStatusCode.Created
                 });
 
@@ -89,10 +91,10 @@ namespace Study.PaymentGateway.API.Tests
             //Arrange
             this.paymentAppService
                 .Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync(new HttpResponseDTO<PaymentDTO>
+                .ReturnsAsync(new HttpResponseDTO<PaymentResponseDTO>
                 {
                     ErrorMessages = It.IsAny<List<string>>(),
-                    Response = new PaymentDTO(),
+                    Response = new PaymentResponseDTO(),
                     Status = (int)HttpStatusCode.BadRequest
                 });
 
@@ -111,10 +113,10 @@ namespace Study.PaymentGateway.API.Tests
             //Arrange
             this.paymentAppService
                 .Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync(new HttpResponseDTO<PaymentDTO>
+                .ReturnsAsync(new HttpResponseDTO<PaymentResponseDTO>
                 {
                     ErrorMessages = It.IsAny<List<string>>(),
-                    Response = new PaymentDTO(),
+                    Response = new PaymentResponseDTO(),
                     Status = (int)HttpStatusCode.NotFound
                 });
 
@@ -131,14 +133,15 @@ namespace Study.PaymentGateway.API.Tests
         public async Task PaymentsController_GetById_When_IdIsValidAndExisting_Should_ReturnOK()
         {
             //Arrange
+            var paymentResponseDto = this.fixture.Create<PaymentResponseDTO>();
             var paymentDto = this.fixture.Create<PaymentDTO>();
 
             this.paymentAppService
                 .Setup(s => s.GetByIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync(new HttpResponseDTO<PaymentDTO>
+                .ReturnsAsync(new HttpResponseDTO<PaymentResponseDTO>
                 {
                     ErrorMessages = It.IsAny<List<string>>(),
-                    Response = paymentDto,
+                    Response = paymentResponseDto,
                     Status = (int)HttpStatusCode.OK
                 });
 
@@ -157,10 +160,10 @@ namespace Study.PaymentGateway.API.Tests
             //Arrange
             this.paymentAppService
                 .Setup(s => s.GetPaymentByCardNumberAsync(It.IsAny<long>(), It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(new HttpResponseDTO<PagedResultDTO<PaymentDTO>>
+                .ReturnsAsync(new HttpResponseDTO<PagedResultsDTO<PaymentResponseDTO>>
                 {
                     ErrorMessages = It.IsAny<List<string>>(),
-                    Response = new PagedResultDTO<PaymentDTO>(),
+                    Response = new PagedResultsDTO<PaymentResponseDTO>(),
                     Status = (int)HttpStatusCode.BadRequest
                 });
 
@@ -179,10 +182,10 @@ namespace Study.PaymentGateway.API.Tests
             //Arrange
             this.paymentAppService
                 .Setup(s => s.GetPaymentByCardNumberAsync(It.IsAny<long>(), It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(new HttpResponseDTO<PagedResultDTO<PaymentDTO>>
+                .ReturnsAsync(new HttpResponseDTO<PagedResultsDTO<PaymentResponseDTO>>
                 {
                     ErrorMessages = It.IsAny<List<string>>(),
-                    Response = new PagedResultDTO<PaymentDTO>(),
+                    Response = new PagedResultsDTO<PaymentResponseDTO>(),
                     Status = (int)HttpStatusCode.NotFound
                 });
 
@@ -199,19 +202,20 @@ namespace Study.PaymentGateway.API.Tests
         public async Task PaymentsController_GetPaymentsByCardNumberPaged_When_IdIsValidAndExisting_Should_ReturnOK()
         {
             //Arrange
-            var payment = this.fixture.Create<PagedResultDTO<PaymentDTO>>();
+            var paymentResponseDto = this.fixture.Create<PagedResultsDTO<PaymentResponseDTO>>();
+            var payment = this.fixture.Create<PagedResultsDTO<PaymentDTO>>();
 
             this.paymentAppService
                 .Setup(s => s.GetPaymentByCardNumberAsync(It.IsAny<long>(), It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(new HttpResponseDTO<PagedResultDTO<PaymentDTO>>
+                .ReturnsAsync(new HttpResponseDTO<PagedResultsDTO<PaymentResponseDTO>>
                 {
                     ErrorMessages = It.IsAny<List<string>>(),
-                    Response = payment,
+                    Response = paymentResponseDto,
                     Status = (int)HttpStatusCode.OK
                 });
 
             // Act
-            var result = await this.paymentsController.GetPaymentsByCardNumberPaged(1234567891234567, 0, 0);
+            var result = await this.paymentsController.GetPaymentsByCardNumberPaged(4567, 0, 0);
 
             // Assert
             Assert.NotNull(result);

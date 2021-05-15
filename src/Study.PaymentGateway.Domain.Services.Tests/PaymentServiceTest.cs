@@ -198,7 +198,7 @@ namespace Study.PaymentGateway.Domain.Services.Tests
             var currentPage = 0;
             var itemsPerPage = 10;
 
-            var payments = this.fixture.Create<PagedResult<Payment>>();
+            var payments = this.fixture.Create<PagedResults<Payment>>();
 
             this.mockPaymentRepository
                .Setup(s => s.GetPaymentByCardNumberAsync(cardNumber, currentPage, itemsPerPage))
