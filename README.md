@@ -20,11 +20,20 @@ Payment Gateway APi is responsible to process Shopper's payment across multiple 
     * XUnit
     * Autofixture
     * Moq
+* Docker
+* 
 
 ### Dependency
 
+* Merchants API : validate and consume Merchant info
+* Fraud API : Check on Fraud API if there is any data or car inconsistency 
+* Acquiring Bank API : Executes the payment processing
+* MongoDB : Stores processing data
+* Kafka : Send messages to Frauds and Payment Processing Status topics
+
 
 ### How to Run
+
 
 
 ## Functional Level
@@ -33,6 +42,12 @@ Payment Gateway APi is responsible to process Shopper's payment across multiple 
 ![Top level Diagram](documentation/paymentgateway.jpg "Payment Gateway")
 
 ### 
+
+#### Endpoings
+For full endpoints descriptions please run the project and find /swagger
+* [POST] Payments
+* [GET] Payments/{id}
+* [GET] Payments?CardLastFourDigits=&CurrentPage=0&ItemsPerPage=10
 
 ## Payment Gateway Development decisions
 
