@@ -4,9 +4,11 @@
 
 Payment Gateway APi is responsible to process Shopper's payment across multiple Acquiring Banks, being able to address a sucessful processment and handle errors and frauds.
 
-#### Main actions :
+#### Actions :
 * Paymentvalidation : Validate Business Rules
 * Acquiring Bank Processing 
+* Store Payment Processing results
+* Provide messages acordingly to Payment Processing results
 
 
 
@@ -34,6 +36,7 @@ Payment Gateway APi is responsible to process Shopper's payment across multiple 
 
 ### How to Run
 
+You can download this project image : https://hub.docker.com/r/gscavassa/payment-gateway-api
 
 
 ## Functional Level
