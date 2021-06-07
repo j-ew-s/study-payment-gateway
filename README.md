@@ -39,7 +39,7 @@ Payment Gateway APi is responsible to process Shopper's payment across multiple 
 ## Functional Level
 
 ### Top level Diagram
-![Top level Diagram](documentation/paymentgateway.jpg "Payment Gateway")
+![Top level Diagram](documentation/PaymentGateway-overview.jpg "Payment Gateway - Overview")
 
 ### 
 
