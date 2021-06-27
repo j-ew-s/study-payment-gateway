@@ -3,4 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Study.PaymentGateway.Shared.Enums\Study.PaymentGateway.Shared.Enums.csproj" />
+  </ItemGroup>
 </Project>

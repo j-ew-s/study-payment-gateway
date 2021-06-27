@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.7" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+    <PackageReference Include="coverlet.collector" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\Study.PaymentGateway.API\Study.PaymentGateway.API.csproj" />
+    <ProjectReference Include="..\src\Study.PaymentGateway.Domain.Entity\Study.PaymentGateway.Domain.Entities.csproj" />
+    <ProjectReference Include="..\src\Study.PaymentGateway.Domain.Repository\Study.PaymentGateway.Domain.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Configuration\API\appsettings.integrationtests.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

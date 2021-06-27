@@ -1,4 +1,6 @@
-﻿namespace Study.PaymentGateway.Shared.Messages
+﻿using Study.PaymentGateway.Shared.Enums;
+
+namespace Study.PaymentGateway.Shared.Messages
 {
     public static class BankResponseMessage
     {
@@ -11,29 +13,29 @@
         private const string INSUFFICIENT_FUNDS = "There are not enough funds in the associated bank accunt.";
         private const string RESPONSE_NOT_FOUND = "There is no valid response.";
 
-        public static string GetMessage(int actionCode)
+        public static string GetMessage(BankResponseEnum actionCode)
         {
             switch (actionCode)
             {
-                case 00:
+                case BankResponseEnum.Success:
                     return APPROVED;
 
-                case 03:
+                case BankResponseEnum.InvalidMerchant:
                     return INVALID_MERCHANT;
 
-                case 05:
+                case BankResponseEnum.NotHonor:
                     return DO_NOT_HONOR;
 
-                case 10:
+                case BankResponseEnum.ApprovedPartial:
                     return APPROVED_PARTIAL;
 
-                case 14:
+                case BankResponseEnum.InvalidInfo:
                     return INVALID_INFO;
 
-                case 51:
+                case BankResponseEnum.InsufficientFunds:
                     return INSUFFICIENT_FUNDS;
 
-                case 54:
+                case BankResponseEnum.CardExpired:
                     return INVALID_CARD_EXPIRED;
 
                 default:

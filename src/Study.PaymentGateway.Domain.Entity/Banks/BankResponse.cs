@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Study.PaymentGateway.Domain.Entities.Bases;
+using Study.PaymentGateway.Shared.Enums;
 using Study.PaymentGateway.Shared.Messages;
 
 namespace Study.PaymentGateway.Domain.Entities.Banks
@@ -14,8 +15,11 @@ namespace Study.PaymentGateway.Domain.Entities.Banks
         {
             var message = new List<string>();
 
-            if (Code != 00)
-                message.Add(BankResponseMessage.GetMessage(Code));
+            if (Code != (int)BankResponseEnum.Success)
+            {
+                var code = (BankResponseEnum)Code;
+                message.Add(BankResponseMessage.GetMessage(code));
+            }
 
             return message;
         }
