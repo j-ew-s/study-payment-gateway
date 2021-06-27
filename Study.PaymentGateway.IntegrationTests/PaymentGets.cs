@@ -1,14 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Study.PaymentGateway.IntegrationTests.Base;
 using Study.PaymentGateway.IntegrationTests.Heper.MongoDB;
-using Study.PaymentGateway.Shared.DTO.HTTPResponses;
-using Study.PaymentGateway.Shared.DTO.Payments;
-using Study.PaymentGateway.Shared.DTO.QueryResponses.PagedItems;
 using Xunit;
 
 namespace Study.PaymentGateway.IntegrationTests
@@ -26,7 +21,7 @@ namespace Study.PaymentGateway.IntegrationTests
         }
 
         [Fact]
-        public async Task GetByid()
+        public async Task Paymentcontroller_GetByid_WhenPaymentIdExists_ShouldReturnThePaymentAndStatusCode200()
         {
             // arrange
             var paymentId = Guid.Parse("403ea23e-cb04-41c6-9220-9a348c6ca444");
