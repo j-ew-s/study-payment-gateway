@@ -33,7 +33,7 @@ namespace Study.PaymentGateway.App.Services
 
             List<string> messages = new List<string>();
 
-            if (payment.Id == Guid.Empty)
+            if (payment == null || payment.Id == Guid.Empty)
                 messages.Add("Not Found");
 
             return HttpResponseFactory.Create(paymentDto, messages, HttpActionEnum.Get);

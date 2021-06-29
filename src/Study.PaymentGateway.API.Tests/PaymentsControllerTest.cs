@@ -219,8 +219,8 @@ namespace Study.PaymentGateway.API.Tests
 
             // Assert
             Assert.NotNull(result);
-            var badrequestResult = result as OkObjectResult;
-            Assert.NotNull(badrequestResult);
+            var requestResult = result as OkObjectResult;
+            Assert.NotNull(requestResult);
         }
     }
 }
