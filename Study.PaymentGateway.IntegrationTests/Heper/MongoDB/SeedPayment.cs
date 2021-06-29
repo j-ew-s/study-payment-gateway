@@ -29,7 +29,7 @@ namespace Study.PaymentGateway.IntegrationTests.Heper.MongoDB
         {
             this.host = host;
 
-            this.getInstance();
+            this.GetInstance();
 
             this.paymentRepository = new PaymentRepository(this.iMongoconfig, this.iMapper);
         }
@@ -47,6 +47,13 @@ namespace Study.PaymentGateway.IntegrationTests.Heper.MongoDB
             return payment;
         }
 
+        public Payment InsertPayment(Payment payment)
+        {
+            this.paymentRepository.InsertAsync(payment);
+
+            return payment;
+        }
+
         public void Cleanup(Payment payment)
         {
             var deleteFilter = Builders<PaymentMongo>.Filter.Eq("_id", payment.Id);
@@ -54,22 +61,7 @@ namespace Study.PaymentGateway.IntegrationTests.Heper.MongoDB
             this.iMongoconfig.Payment.DeleteOneAsync(deleteFilter);
         }
 
-        private void getInstance()
-        {
-            if (this.host == null)
-            {
-                throw new ArgumentNullException("host");
-            }
-
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                this.iMongoconfig = services.GetRequiredService<IMongoDBConfiguration>();
-                this.iMapper = services.GetRequiredService<IMapper>();
-            }
-        }
-
-        private Payment CreatePayment()
+        public Payment CreatePayment()
         {
             return new Payment()
             {
@@ -82,20 +74,43 @@ namespace Study.PaymentGateway.IntegrationTests.Heper.MongoDB
                 Card = new Card()
                 {
                     CVV = "999",
-                    Expiration = "25/99",
+                    Expiration = "12/99",
                     Name = "user name",
                     Number = 9999000088889999
                 },
                 Shopper = new Domain.Entities.Clients.Shopper()
                 {
                     Name = "Fake name",
-                    Address = new Domain.Entities.Addresses.Address(),
                     Email = "fake@email.com",
+                    Address = new Domain.Entities.Addresses.Address()
+                    {
+                        City = "New City",
+                        Complement = "Compl",
+                        Country = "New Country",
+                        State = "New One",
+                        Street = "A good One",
+                        ZIP = "1234rj"
+                    },
                 },
                 MerchantId = this.MerchantId,
                 TotalCost = 10.50m,
                 Currency = Shared.Enums.CurrencyEnum.USD
             };
+        }
+
+        private void GetInstance()
+        {
+            if (this.host == null)
+            {
+                throw new ArgumentNullException("host");
+            }
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                this.iMongoconfig = services.GetRequiredService<IMongoDBConfiguration>();
+                this.iMapper = services.GetRequiredService<IMapper>();
+            }
         }
     }
 }

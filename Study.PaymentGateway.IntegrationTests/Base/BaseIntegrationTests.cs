@@ -21,14 +21,7 @@ namespace Study.PaymentGateway.IntegrationTests.Base
             {
                 conf.AddJsonFile(applicationSettingsPath);
             });
-
-            //  builder.UseStartup<Startup>();
         }
-
-        /* protected override TestServer CreateServer(IWebHostBuilder builder)
-         {
-             return base.CreateServer(builder);
-         }*/
 
         protected override IHost CreateHost(IHostBuilder builder)
         {
