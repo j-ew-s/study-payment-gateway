@@ -1,4 +1,4 @@
-﻿namespace Study.PaymentGateway.Gateways.Configuration.Interfaces
+﻿namespace Study.PaymentGateway.Domain.AcquiringBanksGateway.Services.GatewayConfig
 {
     public interface IBankCredentials
     {

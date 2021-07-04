@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Moq;
+using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services;
+using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services.GatewayConfig;
 using Study.PaymentGateway.Domain.Entities.Banks;
-using Study.PaymentGateway.Gateways.Configuration.Interfaces;
-using Study.PaymentGateway.Gateways.Executor.Interface;
+using Study.PaymentGateway.Gateways.Gateways;
 using Study.PaymentGateway.Gateways.Tests.TestHelpers;
 using Study.PaymentGateway.Shared.Enums;
 using Xunit;

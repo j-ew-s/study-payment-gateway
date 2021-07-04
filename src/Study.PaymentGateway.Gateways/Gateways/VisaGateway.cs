@@ -1,19 +1,20 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Study.PaymentGateway.Domain.AcquiringBanksGateway;
+using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services;
+using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services.GatewayConfig;
 using Study.PaymentGateway.Domain.Entities.Banks;
 using Study.PaymentGateway.Domain.Entities.Payments;
 using Study.PaymentGateway.Gateways.Configuration;
-using Study.PaymentGateway.Gateways.Configuration.Interfaces;
-using Study.PaymentGateway.Gateways.Executor.Interface;
 using Study.PaymentGateway.Gateways.Models;
 using Study.PaymentGateway.Shared.Enums;
 
-namespace Study.PaymentGateway.Gateways
+namespace Study.PaymentGateway.Gateways.Gateways
 {
     public class VisaGateway : BankGateways, IVisaGateway
     {
-        public BankAPI BankAPI { get; set; }
+        public IBankAPI BankAPI { get; set; }
+        public BankCodeEnum Bank => BankCodeEnum.Visa;
 
         public VisaGateway(IGatewayConfiguration gatewayConfiguration, IAPIExecutionService apiExecutionService)
             : base(gatewayConfiguration, apiExecutionService)
@@ -21,7 +22,7 @@ namespace Study.PaymentGateway.Gateways
             BankAPI = this.gatewayConfiguration.BankAPIs.Where(w => w.Code == BankCodeEnum.Visa).FirstOrDefault();
         }
 
-        public override async Task<BankResponse> ExecutesPayment(Payment payment)
+        public override Task<BankResponse> ExecutesPayment(Payment payment)
         {
             var executesPaymentConfig = this.BankAPI.ActionUris.Where(w => w.Action == GatewayActionsEnum.ProcessPayment).FirstOrDefault();
 
@@ -31,7 +32,7 @@ namespace Study.PaymentGateway.Gateways
                 Payment = payment
             };
 
-            return await this.apiExecutionService.Post<BankResponse>(executesPaymentConfig.URI, executesPayment);
+            return this.apiExecutionService.Post<BankResponse>(executesPaymentConfig.URI, executesPayment);
         }
 
         public override async Task<BankLoginResponse> Login()
@@ -54,7 +55,7 @@ namespace Study.PaymentGateway.Gateways
             return bankResponse;
         }
 
-        private bool IsValid(ActionUris loginConfig)
+        private bool IsValid(IActionUris loginConfig)
         {
             return loginConfig != null ||
                 !string.IsNullOrWhiteSpace(loginConfig.URI) ||

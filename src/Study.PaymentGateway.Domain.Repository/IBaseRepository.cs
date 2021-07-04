@@ -8,7 +8,7 @@ namespace Study.PaymentGateway.Domain.Repository
 {
     public interface IBaseRepository<T> where T : class
     {
-        void InsertAsync(T entity);
+        Task InsertAsync(T entity);
 
         Task<bool> UpdadateAsync(T entity);
 

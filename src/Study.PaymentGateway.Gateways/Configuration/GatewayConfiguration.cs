@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Study.PaymentGateway.Gateways.Configuration.Interfaces;
+using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services.GatewayConfig;
 
 namespace Study.PaymentGateway.Gateways.Configuration
 {
@@ -7,9 +7,9 @@ namespace Study.PaymentGateway.Gateways.Configuration
     {
         public GatewayConfiguration()
         {
-            this.BankAPIs = new List<BankAPI>();
+            this.BankAPIs = new List<IBankAPI>();
         }
 
-        public List<BankAPI> BankAPIs { get; set; }
+        public List<IBankAPI> BankAPIs { get; set; }
     }
 }

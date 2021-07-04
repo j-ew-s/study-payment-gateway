@@ -16,14 +16,15 @@ namespace Study.PaymentGateway.API
     using Study.PaymentGateway.App.Services;
     using Study.PaymentGateway.App.Services.Interfaces;
     using Study.PaymentGateway.Domain.AcquiringBanksGateway;
+    using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services;
+    using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services.GatewayConfig;
     using Study.PaymentGateway.Domain.Repository;
     using Study.PaymentGateway.Domain.Services;
     using Study.PaymentGateway.Domain.Services.Interfaces;
-    using Study.PaymentGateway.Gateways;
     using Study.PaymentGateway.Gateways.Configuration;
-    using Study.PaymentGateway.Gateways.Configuration.Interfaces;
     using Study.PaymentGateway.Gateways.Executor;
-    using Study.PaymentGateway.Gateways.Executor.Interface;
+    using Study.PaymentGateway.Gateways.Gateways;
+    using Study.PaymentGateway.Gateways.Services;
     using Study.PaymentGateway.Repository.MongoDB.Configuration;
     using Study.PaymentGateway.Repository.MongoDB.Configuration.Interfaces;
     using Study.PaymentGateway.Repository.MongoDB.Configuration.Settings;
@@ -70,6 +71,7 @@ namespace Study.PaymentGateway.API
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             //services.AddScoped<IBankGateways, BankGateways>();
             services.AddScoped<IVisaGateway, VisaGateway>();
+            services.AddScoped<IGatewayServices, GatewayService>();
 
             // Singletons
             var mapper = new AutoMapperConfiguration();

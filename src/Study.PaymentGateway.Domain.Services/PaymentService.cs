@@ -2,20 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Study.PaymentGateway.Domain.AcquiringBanksGateway.Factory;
+using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services;
 using Study.PaymentGateway.Domain.Entities.Paging;
 using Study.PaymentGateway.Domain.Entities.Payments;
 using Study.PaymentGateway.Domain.Repository;
 using Study.PaymentGateway.Domain.Services.Interfaces;
+using Study.PaymentGateway.Shared.Enums;
 
 namespace Study.PaymentGateway.Domain.Services
 {
     public class PaymentService : IPaymentService
     {
         private readonly IPaymentRepository paymentRepository;
+        private readonly IGatewayServices gatewayServices;
 
-        public PaymentService(IPaymentRepository paymentRepository)
+        public PaymentService(IPaymentRepository paymentRepository, IGatewayServices gatewayServices)
         {
             this.paymentRepository = paymentRepository;
+            this.gatewayServices = gatewayServices;
         }
 
         public async Task<Payment> GetByIdAsync(Guid id)
@@ -49,15 +54,30 @@ namespace Study.PaymentGateway.Domain.Services
 
         public async Task<Payment> ProcessPaymentAsync(Payment payment)
         {
-            if (payment == null || !payment.IsValid())
+            if (!IsPaymentValid(payment))
                 return payment;
 
+            payment.BankResponse = await gatewayServices.ExecutesPayment(payment);
+
+            if (!payment.BankResponse.IsValid())
+                return payment;
+
+            await this.RecordPayment(payment);
+
+            return payment;
+        }
+
+        private bool IsPaymentValid(Payment payment)
+        {
+            return payment != null && payment.IsValid();
+        }
+
+        private Task RecordPayment(Payment payment)
+        {
             payment.CreatedAt = DateTime.Now;
             payment.UpdatedAt = DateTime.Now;
 
-            this.paymentRepository.InsertAsync(payment);
-
-            return payment;
+            return this.paymentRepository.InsertAsync(payment);
         }
     }
 }

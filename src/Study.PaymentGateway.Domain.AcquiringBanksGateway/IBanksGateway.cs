@@ -4,9 +4,11 @@
     using System.Threading.Tasks;
     using Study.PaymentGateway.Domain.Entities.Banks;
     using Study.PaymentGateway.Domain.Entities.Payments;
+    using Study.PaymentGateway.Shared.Enums;
 
     public interface IBankGateways
     {
+        public abstract BankCodeEnum Bank { get; }
         public string Token { get; set; }
 
         /// <summary>
