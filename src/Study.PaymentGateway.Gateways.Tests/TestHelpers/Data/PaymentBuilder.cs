@@ -18,7 +18,7 @@ namespace Study.PaymentGateway.Gateways.Tests.TestHelpers.Data
             var card = new Card()
             {
                 CVV = "333",
-                Number = 1236547893211234,
+                Number = 4236547893211234,
                 Expiration = $"{month}/{year}",
                 Name = "Test Name"
             };

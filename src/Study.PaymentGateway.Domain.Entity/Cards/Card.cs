@@ -15,9 +15,8 @@ namespace Study.PaymentGateway.Domain.Entities.Cards
 
         public BankCodeEnum Bank()
         {
-            return (BankCodeEnum)this.Number.ToString()
-                .ToCharArray()
-                .FirstOrDefault();
+            var bankNumber = int.Parse(this.Number.ToString().ToCharArray().FirstOrDefault().ToString());
+            return (BankCodeEnum)bankNumber;
         }
 
         public override IReadOnlyList<string> GetErrorMessages()
