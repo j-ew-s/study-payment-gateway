@@ -16,6 +16,7 @@ namespace Study.PaymentGateway.API
     using Study.PaymentGateway.App.Services;
     using Study.PaymentGateway.App.Services.Interfaces;
     using Study.PaymentGateway.Domain.AcquiringBanksGateway;
+    using Study.PaymentGateway.Domain.AcquiringBanksGateway.Factory;
     using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services;
     using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services.GatewayConfig;
     using Study.PaymentGateway.Domain.Repository;
@@ -23,6 +24,7 @@ namespace Study.PaymentGateway.API
     using Study.PaymentGateway.Domain.Services.Interfaces;
     using Study.PaymentGateway.Gateways.Configuration;
     using Study.PaymentGateway.Gateways.Executor;
+    using Study.PaymentGateway.Gateways.Factory;
     using Study.PaymentGateway.Gateways.Gateways;
     using Study.PaymentGateway.Gateways.Services;
     using Study.PaymentGateway.Repository.MongoDB.Configuration;
@@ -81,6 +83,7 @@ namespace Study.PaymentGateway.API
             services.AddSingleton<IBankAPI, BankAPI>();
             services.AddSingleton<IActionUris, ActionUris>();
             services.AddSingleton<IBankCredentials, BankCredentials>();
+            services.AddSingleton<IBankFactory, BankFactory>();
             services.AddSingleton<IMongoDBConfiguration, MongoDBConfiguration>();
 
             // configurations that depends on appsettings.

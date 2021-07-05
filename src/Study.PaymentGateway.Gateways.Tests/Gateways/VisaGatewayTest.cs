@@ -1,15 +1,18 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services;
 using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services.GatewayConfig;
 using Study.PaymentGateway.Domain.Entities.Banks;
+using Study.PaymentGateway.Domain.Entities.Payments;
 using Study.PaymentGateway.Gateways.Gateways;
 using Study.PaymentGateway.Gateways.Tests.TestHelpers;
+using Study.PaymentGateway.Gateways.Tests.TestHelpers.Data;
 using Study.PaymentGateway.Shared.Enums;
 using Xunit;
 
-namespace Study.PaymentGateway.Gateways.Tests
+namespace Study.PaymentGateway.Gateways.Tests.Gateways
 {
     public class VisaGatewayTest
     {
@@ -83,6 +86,36 @@ namespace Study.PaymentGateway.Gateways.Tests
             Assert.Equal(bankLoginResponse.Message, response.Message);
             Assert.Equal(bankLoginResponse.Body, response.Body);
             this.mockApiExecutionService.Verify(s => s.Post<BankLoginResponse>(loginActionUris.URI, It.IsAny<object>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task ProcessPayment_When_ValidInput_Returns_ValidBankResponse()
+        {
+            // Arrange
+            var bankResponse = new BankResponse();
+            bankResponse.Code = 00;
+            bankResponse.PaymentID = Guid.NewGuid().ToString();
+
+            var payment = PaymentBuilder.GetValidPayment();
+
+            this.gatewayConfiguration = GatewayConfigurationDataHelper.GetGatewayConfiguration();
+
+            this.mockApiExecutionService
+                .Setup(s => s.Post<BankResponse>(It.Is<string>(s => s == GatewayConfigurationDataHelper.executePaymentURI), It.IsAny<object>()))
+                .ReturnsAsync(bankResponse);
+
+            this.visaGateway = new VisaGateway(this.gatewayConfiguration, this.mockApiExecutionService.Object);
+
+            var paymentExecutionUris = GatewayConfigurationDataHelper
+                .GetAllActionUris()
+                .Where(w => w.Action == GatewayActionsEnum.ProcessPayment).FirstOrDefault();
+
+            // Act
+            var response = await this.visaGateway.ExecutesPayment(payment);
+
+            // Assert
+            Assert.NotNull(response);
+            this.mockApiExecutionService.Verify(s => s.Post<BankResponse>(paymentExecutionUris.URI, It.IsAny<object>()), Times.Once);
         }
     }
 }

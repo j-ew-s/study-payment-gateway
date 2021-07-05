@@ -42,7 +42,7 @@ namespace Study.PaymentGateway.Gateways.Tests.TestHelpers
 
             var executeActionUris = new ActionUris();
             executeActionUris.Action = Shared.Enums.GatewayActionsEnum.ProcessPayment;
-            executeActionUris.HttpVerb = "GET";
+            executeActionUris.HttpVerb = "POST";
             executeActionUris.URI = executePaymentURI;
 
             actionUris.Add(executeActionUris);
