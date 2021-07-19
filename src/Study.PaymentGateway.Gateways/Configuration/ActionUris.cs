@@ -1,4 +1,4 @@
-﻿using Study.PaymentGateway.Gateways.Configuration.Interfaces;
+﻿using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services.GatewayConfig;
 using Study.PaymentGateway.Shared.Enums;
 
 namespace Study.PaymentGateway.Gateways.Configuration

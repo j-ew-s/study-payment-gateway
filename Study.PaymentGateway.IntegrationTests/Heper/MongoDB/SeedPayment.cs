@@ -76,7 +76,7 @@ namespace Study.PaymentGateway.IntegrationTests.Heper.MongoDB
                     CVV = "999",
                     Expiration = "12/99",
                     Name = "user name",
-                    Number = 9999000088889999
+                    Number = 4999000088889999
                 },
                 Shopper = new Domain.Entities.Clients.Shopper()
                 {

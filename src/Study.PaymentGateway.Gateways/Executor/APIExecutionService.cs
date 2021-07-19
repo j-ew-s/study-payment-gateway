@@ -1,8 +1,8 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Study.PaymentGateway.Gateways.Configuration.Interfaces;
-using Study.PaymentGateway.Gateways.Executor.Interface;
+using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services;
+using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services.GatewayConfig;
 
 namespace Study.PaymentGateway.Gateways.Executor
 {

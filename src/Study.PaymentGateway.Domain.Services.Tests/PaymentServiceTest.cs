@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoFixture;
 using Moq;
+using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services;
+using Study.PaymentGateway.Domain.Entities.Banks;
 using Study.PaymentGateway.Domain.Entities.Paging;
 using Study.PaymentGateway.Domain.Entities.Payments;
 using Study.PaymentGateway.Domain.Repository;
@@ -16,12 +18,14 @@ namespace Study.PaymentGateway.Domain.Services.Tests
         public Fixture fixture = new Fixture();
         private PaymentService paymentService;
         private Mock<IPaymentRepository> mockPaymentRepository;
+        private Mock<IGatewayServices> mockGatewayServices;
 
         public PaymentServiceTest()
         {
             this.mockPaymentRepository = new Mock<IPaymentRepository>();
+            this.mockGatewayServices = new Mock<IGatewayServices>();
 
-            this.paymentService = new PaymentService(this.mockPaymentRepository.Object);
+            this.paymentService = new PaymentService(this.mockPaymentRepository.Object, this.mockGatewayServices.Object);
         }
 
         [Fact]
@@ -32,6 +36,17 @@ namespace Study.PaymentGateway.Domain.Services.Tests
             this.mockPaymentRepository
                 .Setup(s => s.InsertAsync(It.IsAny<Payment>()))
                 .Verifiable();
+
+            var bankResponse = new BankResponse()
+            {
+                Code = 00,
+                Message = "Success",
+                PaymentID = Guid.NewGuid().ToString()
+            };
+
+            this.mockGatewayServices
+                .Setup(s => s.ExecutesPayment(It.IsAny<Payment>()))
+                .ReturnsAsync(bankResponse);
 
             // Act
             var response = await paymentService.ProcessPaymentAsync(payment);

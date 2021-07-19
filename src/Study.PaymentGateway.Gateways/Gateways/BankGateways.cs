@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Study.PaymentGateway.Domain.AcquiringBanksGateway;
+using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services;
+using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services.GatewayConfig;
 using Study.PaymentGateway.Domain.Entities.Banks;
 using Study.PaymentGateway.Domain.Entities.Payments;
-using Study.PaymentGateway.Gateways.Configuration.Interfaces;
-using Study.PaymentGateway.Gateways.Executor.Interface;
 
-namespace Study.PaymentGateway.Gateways
+namespace Study.PaymentGateway.Gateways.Gateways
 {
     public abstract class BankGateways
     {

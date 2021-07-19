@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Study.PaymentGateway.Gateways.Executor.Interface
+namespace Study.PaymentGateway.Domain.AcquiringBanksGateway.Services
 {
     public interface IAPIExecutionService
     {

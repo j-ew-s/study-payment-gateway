@@ -19,11 +19,11 @@ namespace Study.PaymentGateway.Repository.MongoDB.Repository
         {
         }
 
-        public void InsertAsync(Payment entity)
+        public Task InsertAsync(Payment entity)
         {
             var payment = this.mapper.Map<PaymentMongo>(entity);
 
-            this.mongoDBConfiguration.Payment.InsertOneAsync(payment);
+            return this.mongoDBConfiguration.Payment.InsertOneAsync(payment);
         }
 
         public async Task<bool> UpdadateAsync(Payment entity)
