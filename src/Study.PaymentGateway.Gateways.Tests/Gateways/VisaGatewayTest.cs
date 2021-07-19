@@ -18,6 +18,7 @@ namespace Study.PaymentGateway.Gateways.Tests.Gateways
     {
         private IGatewayConfiguration gatewayConfiguration;
         private Mock<IAPIExecutionService> mockApiExecutionService;
+        private Mock<IGatewayServices> mockGatewayServices;
         private VisaGateway visaGateway;
 
         private const string token = "token";
@@ -25,6 +26,7 @@ namespace Study.PaymentGateway.Gateways.Tests.Gateways
         public VisaGatewayTest()
         {
             this.mockApiExecutionService = new Mock<IAPIExecutionService>();
+            this.mockGatewayServices = new Mock<IGatewayServices>();
         }
 
         [Fact]
@@ -38,8 +40,19 @@ namespace Study.PaymentGateway.Gateways.Tests.Gateways
             this.gatewayConfiguration = GatewayConfigurationDataHelper.GetGatewayConfiguration();
 
             this.mockApiExecutionService
-                .Setup(s => s.Post<BankLoginResponse>(It.Is<string>(s => s == GatewayConfigurationDataHelper.loginURI), It.IsAny<object>()))
+                .Setup(s => s.Post<BankLoginResponse>(It.IsAny<string>(), It.IsAny<object>()))
                 .ReturnsAsync(bankLoginResponse);
+
+            var bankResponse = new BankResponse()
+            {
+                Code = 00,
+                Message = "Success",
+                PaymentID = Guid.NewGuid().ToString()
+            };
+
+            this.mockGatewayServices
+                .Setup(s => s.ExecutesPayment(It.IsAny<Payment>()))
+                .ReturnsAsync(bankResponse);
 
             this.visaGateway = new VisaGateway(this.gatewayConfiguration, this.mockApiExecutionService.Object);
 
@@ -53,7 +66,7 @@ namespace Study.PaymentGateway.Gateways.Tests.Gateways
             // Assert
             Assert.NotNull(response);
             Assert.Equal(token, this.visaGateway.Token);
-            this.mockApiExecutionService.Verify(s => s.Post<BankLoginResponse>(loginActionUris.URI, It.IsAny<object>()), Times.Once);
+            this.mockApiExecutionService.Verify(s => s.Post<BankLoginResponse>(It.IsAny<string>(), It.IsAny<object>()), Times.Once);
         }
 
         [Fact]
@@ -67,15 +80,17 @@ namespace Study.PaymentGateway.Gateways.Tests.Gateways
 
             this.gatewayConfiguration = GatewayConfigurationDataHelper.GetGatewayConfiguration();
 
-            this.mockApiExecutionService
-                .Setup(s => s.Post<BankLoginResponse>(It.Is<string>(s => s == GatewayConfigurationDataHelper.loginURI), It.IsAny<object>()))
-                .ReturnsAsync(bankLoginResponse);
-
             this.visaGateway = new VisaGateway(this.gatewayConfiguration, this.mockApiExecutionService.Object);
 
-            var loginActionUris = GatewayConfigurationDataHelper
-                .GetAllActionUris()
-                .Where(w => w.Action == GatewayActionsEnum.Login).FirstOrDefault();
+            var content = new
+            {
+                User = this.visaGateway.BankAPI.Login,
+                Password = this.visaGateway.BankAPI.Password
+            };
+
+            this.mockApiExecutionService
+                .Setup(s => s.Post<BankLoginResponse>(It.IsAny<string>(), It.IsAny<object>()))
+                .ReturnsAsync(bankLoginResponse);
 
             // Act
             var response = await this.visaGateway.Login();
@@ -85,7 +100,7 @@ namespace Study.PaymentGateway.Gateways.Tests.Gateways
             Assert.Null(this.visaGateway.Token);
             Assert.Equal(bankLoginResponse.Message, response.Message);
             Assert.Equal(bankLoginResponse.Body, response.Body);
-            this.mockApiExecutionService.Verify(s => s.Post<BankLoginResponse>(loginActionUris.URI, It.IsAny<object>()), Times.Once);
+            this.mockApiExecutionService.Verify(s => s.Post<BankLoginResponse>(It.IsAny<string>(), It.IsAny<object>()), Times.Once);
         }
 
         [Fact]
@@ -101,7 +116,7 @@ namespace Study.PaymentGateway.Gateways.Tests.Gateways
             this.gatewayConfiguration = GatewayConfigurationDataHelper.GetGatewayConfiguration();
 
             this.mockApiExecutionService
-                .Setup(s => s.Post<BankResponse>(It.Is<string>(s => s == GatewayConfigurationDataHelper.executePaymentURI), It.IsAny<object>()))
+                .Setup(s => s.Post<BankResponse>(It.IsAny<string>(), It.IsAny<object>()))
                 .ReturnsAsync(bankResponse);
 
             this.visaGateway = new VisaGateway(this.gatewayConfiguration, this.mockApiExecutionService.Object);
@@ -115,7 +130,7 @@ namespace Study.PaymentGateway.Gateways.Tests.Gateways
 
             // Assert
             Assert.NotNull(response);
-            this.mockApiExecutionService.Verify(s => s.Post<BankResponse>(paymentExecutionUris.URI, It.IsAny<object>()), Times.Once);
+            this.mockApiExecutionService.Verify(s => s.Post<BankResponse>(It.IsAny<string>(), It.IsAny<object>()), Times.Once);
         }
     }
 }

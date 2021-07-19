@@ -6,8 +6,8 @@ namespace Study.PaymentGateway.Gateways.Tests.TestHelpers
 {
     public static class GatewayConfigurationDataHelper
     {
-        public static string loginURI = "http://domain.com/login";
-        public static string executePaymentURI = "http://domain.com/payment";
+        public static string loginURI = "api/login";
+        public static string executePaymentURI = "api/payment";
 
         public static GatewayConfiguration GetGatewayConfiguration()
         {
@@ -22,7 +22,10 @@ namespace Study.PaymentGateway.Gateways.Tests.TestHelpers
         {
             var bankAPI = new BankAPI();
 
-            bankAPI.ActionUris.AddRange(GetAllActionUris());
+            bankAPI.User = "test";
+            bankAPI.Password = "123";
+            bankAPI.Login = "api/login";
+            bankAPI.ExecutePayment = "api/executepayment";
             bankAPI.Code = BankCodeEnum.Visa;
             bankAPI.Name = "Visa";
 

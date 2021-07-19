@@ -5,7 +5,6 @@ using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services;
 using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services.GatewayConfig;
 using Study.PaymentGateway.Domain.Entities.Banks;
 using Study.PaymentGateway.Domain.Entities.Payments;
-using Study.PaymentGateway.Gateways.Configuration;
 using Study.PaymentGateway.Gateways.Models;
 using Study.PaymentGateway.Shared.Enums;
 
@@ -24,7 +23,7 @@ namespace Study.PaymentGateway.Gateways.Gateways
 
         public override Task<BankResponse> ExecutesPayment(Payment payment)
         {
-            var executesPaymentConfig = this.BankAPI.ActionUris.Where(w => w.Action == GatewayActionsEnum.ProcessPayment).FirstOrDefault();
+            var executePaymentPath = this.BankAPI.GetFullPathExecution();
 
             var executesPayment = new VisaExecutesPayment()
             {
@@ -32,37 +31,23 @@ namespace Study.PaymentGateway.Gateways.Gateways
                 Payment = payment
             };
 
-            return this.apiExecutionService.Post<BankResponse>(executesPaymentConfig.URI, executesPayment);
+            return this.apiExecutionService.Post<BankResponse>(executePaymentPath, executesPayment);
         }
 
         public override async Task<BankLoginResponse> Login()
         {
-            var loginConfig = this.BankAPI.ActionUris.Where(w => w.Action == GatewayActionsEnum.Login).FirstOrDefault();
-            var bankResponse = new BankLoginResponse();
+            var loginPath = this.BankAPI.Login;
 
-            if (IsValid(loginConfig))
+            var content = new
             {
-                bankResponse = await this.apiExecutionService.Post<BankLoginResponse>(loginConfig.URI, BankAPI.Credentials);
-                this.Token = bankResponse.Body;
-            }
-            else
-            {
-                bankResponse.Body = null;
-                bankResponse.Status = 400;
-                bankResponse.Message = "Invalid GatewayConfiguration";
-            }
+                User = this.BankAPI.Login,
+                Password = this.BankAPI.Password
+            };
+
+            var bankResponse = await this.apiExecutionService.Post<BankLoginResponse>(loginPath, content);
+            this.Token = bankResponse.Body;
 
             return bankResponse;
-        }
-
-        private bool IsValid(IActionUris loginConfig)
-        {
-            return loginConfig != null ||
-                !string.IsNullOrWhiteSpace(loginConfig.URI) ||
-                !string.IsNullOrWhiteSpace(loginConfig.HttpVerb) ||
-                BankAPI.Credentials != null ||
-                !string.IsNullOrWhiteSpace(BankAPI.Credentials.User) ||
-                !string.IsNullOrWhiteSpace(BankAPI.Credentials.Password);
         }
     }
 }

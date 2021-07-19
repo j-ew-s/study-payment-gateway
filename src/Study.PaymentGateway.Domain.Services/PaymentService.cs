@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Study.PaymentGateway.Domain.AcquiringBanksGateway.Factory;
 using Study.PaymentGateway.Domain.AcquiringBanksGateway.Services;
 using Study.PaymentGateway.Domain.Entities.Paging;
 using Study.PaymentGateway.Domain.Entities.Payments;
 using Study.PaymentGateway.Domain.Repository;
 using Study.PaymentGateway.Domain.Services.Interfaces;
-using Study.PaymentGateway.Shared.Enums;
 
 namespace Study.PaymentGateway.Domain.Services
 {

@@ -1,8 +1,10 @@
 namespace Study.PaymentGateway.API
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -81,6 +83,7 @@ namespace Study.PaymentGateway.API
             services.AddSingleton<IAPIExecutionService, APIExecutionService>();
             services.AddSingleton<IGatewayConfiguration, GatewayConfiguration>();
             services.AddSingleton<IBankAPI, BankAPI>();
+            services.AddSingleton<IActions, Actions>();
             services.AddSingleton<IActionUris, ActionUris>();
             services.AddSingleton<IBankCredentials, BankCredentials>();
             services.AddSingleton<IBankFactory, BankFactory>();
@@ -90,8 +93,16 @@ namespace Study.PaymentGateway.API
             services.Configure<MongoDBSettings>(Configuration.GetSection(nameof(MongoDBSettings)));
             services.AddSingleton<IMongoDBSettings>(sp => sp.GetRequiredService<IOptions<MongoDBSettings>>().Value);
 
-            services.Configure<GatewayConfiguration>(Configuration.GetSection(nameof(GatewayConfiguration)));
-            services.AddSingleton<IGatewayConfiguration>(sp => sp.GetRequiredService<IOptions<GatewayConfiguration>>().Value);
+            GatewayConfigurationFactory.SetGatewayConfiguration(services, Configuration);
+
+            //services.Configure<List<IBankAPI>>(Configuration.GetSection("BankAPIs"));
+
+            //var subSettings = Configuration.GetSection("BankAPIs").Get<List<IBankAPI>>();
+
+            //var configurationSection = Configuration.GetSection("BankAPIs");
+            // services.Configure<List<IBankAPI>>(configurationSection);
+            //services.Configure<GatewayConfiguration>(Configuration.GetSection(nameof(GatewayConfiguration)));
+            //services.AddSingleton<IGatewayConfiguration>(sp => sp.GetRequiredService<IOptions<GatewayConfiguration>>().Value);
 
             services.AddMvc(
                 opt =>

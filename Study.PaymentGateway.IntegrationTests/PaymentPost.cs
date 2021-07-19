@@ -48,7 +48,6 @@ namespace Study.PaymentGateway.IntegrationTests
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
             Assert.False(httpResponseDto.ErrorMessages.Any());
             Assert.NotNull(httpResponseDto.Response);
-            Assert.Equal(paymentId, httpResponseDto.Response.Id);
 
             this.seedPayment.Cleanup(payment);
         }
