@@ -2,6 +2,25 @@ version: '3.4'
 
 services:
 
+  study.paymentgateway.zookeeper:
+    container_name: study.paymentgateway.zookeeper
+    ports:
+        - 2181:2181
+  
+  study.paymentgateway.kafka:
+    container_name:  study.paymentgateway.kafka
+    ports:
+        - 9092:9092
+    environment:
+        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        KAFKA_DELETE_TOPIC_ENABLE: 'true'
+        KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+        KAFKA_MESSAGE_MAX_BYTES: 20971520
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+        - zookeeper
+
   study.paymentgateway.db:
     container_name:  study.paymentgateway.db
     volumes:

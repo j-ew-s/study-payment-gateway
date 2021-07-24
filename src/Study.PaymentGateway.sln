@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Repository", "4 - Repos
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Gateways", "5 - Gateways", "{B4AC716B-5B25-457F-9664-728FAA13A526}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 - Shared", "6 - Shared", "{FE5EC22E-90AA-4E4C-BF3B-149795D26C3E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{FE5EC22E-90AA-4E4C-BF3B-149795D26C3E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Study.PaymentGateway.API", "Study.PaymentGateway.API\Study.PaymentGateway.API.csproj", "{68369EF1-F456-4D6E-97AE-EF951E92EBDC}"
 EndProject
@@ -61,7 +61,11 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{73DC6526-7DF4-4D43-9DC0-85CEC37CCB5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Study.PaymentGateway.IntegrationTests", "..\Study.PaymentGateway.IntegrationTests\Study.PaymentGateway.IntegrationTests.csproj", "{BF9CE9B2-BFDE-4AF2-8D93-57E4E522AC70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Study.PaymentGateway.IntegrationTests", "..\Study.PaymentGateway.IntegrationTests\Study.PaymentGateway.IntegrationTests.csproj", "{BF9CE9B2-BFDE-4AF2-8D93-57E4E522AC70}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 - Message", "6 - Message", "{4B895C29-2A65-4A61-AA7D-49E319F725F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Study.PaymentGateway.Message.Kafka", "..\Study.PaymentGateway.Message.Kafka\Study.PaymentGateway.Message.Kafka.csproj", "{8177B8BE-34AE-481A-A6A8-FA2395750EF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,6 +145,10 @@ Global
 		{BF9CE9B2-BFDE-4AF2-8D93-57E4E522AC70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF9CE9B2-BFDE-4AF2-8D93-57E4E522AC70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF9CE9B2-BFDE-4AF2-8D93-57E4E522AC70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8177B8BE-34AE-481A-A6A8-FA2395750EF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8177B8BE-34AE-481A-A6A8-FA2395750EF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8177B8BE-34AE-481A-A6A8-FA2395750EF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8177B8BE-34AE-481A-A6A8-FA2395750EF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -168,6 +176,7 @@ Global
 		{E5AABB87-D7EA-4C8A-853C-B8BE536935EC} = {B4AC716B-5B25-457F-9664-728FAA13A526}
 		{6FD54375-A48D-46A9-AC70-D7EB97661967} = {E5AABB87-D7EA-4C8A-853C-B8BE536935EC}
 		{BF9CE9B2-BFDE-4AF2-8D93-57E4E522AC70} = {73DC6526-7DF4-4D43-9DC0-85CEC37CCB5B}
+		{8177B8BE-34AE-481A-A6A8-FA2395750EF9} = {4B895C29-2A65-4A61-AA7D-49E319F725F3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2FC02C87-8085-4F77-A28B-66D2040ADD46}

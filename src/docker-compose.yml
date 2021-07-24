@@ -2,6 +2,13 @@ version: '3.4'
 
 services:
 
+  study.paymentgateway.zookeeper:
+    image: wurstmeister/zookeeper
+  
+  study.paymentgateway.kafka:
+    image: "wurstmeister/kafka:0.11.0.1"
+
+
   study.paymentgateway.db:
     image : mongo
 

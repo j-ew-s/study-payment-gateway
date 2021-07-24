@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -29,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Study.PaymentGateway.Message.Kafka\Study.PaymentGateway.Message.Kafka.csproj" />
     <ProjectReference Include="..\Study.PaymentGateway.App.Mapper\Study.PaymentGateway.App.Mapper.csproj" />
     <ProjectReference Include="..\Study.PaymentGateway.App.Services\Study.PaymentGateway.App.Services.csproj" />
     <ProjectReference Include="..\Study.PaymentGateway.Domain.Services\Study.PaymentGateway.Domain.Services.csproj" />
